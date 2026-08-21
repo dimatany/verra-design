@@ -72,6 +72,9 @@ import { VerraDesignI18n } from '@verra/design/react/i18n';
 <VerraDesignI18n t={(uk, ru, en) => /* ваш механизм */}>…</VerraDesignI18n>
 ```
 
-Без провайдера компоненты говорят по-английски. В пакет НЕ переехали
-`TableExportButtons` и `useTableRows` — они тянут экспорт документов и
-форматирование чисел продукта; отвяжем отдельным шагом.
+Без провайдера компоненты говорят по-английски.
+
+С v0.3.0 переехали и `useTableRows`/`TableRowsFooter` (формат чисел — из
+провайдера: `formatNumber`, по умолчанию украинский `20 000,35`) и
+`TableExportButtons` (генераторы Word/PDF остаются в продукте и приходят
+пропсом `exporters` — пакет не тащит pdfmake/docx).

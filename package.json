@@ -1,6 +1,6 @@
 {
   "name": "@verra/design",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Дизайн-система экосистемы Verra: палитра, шкала текста, семьи элементов и тесты-стражи",
   "license": "UNLICENSED",
   "private": true,
