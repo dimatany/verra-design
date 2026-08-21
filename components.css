@@ -5,17 +5,6 @@
  * DESIGN_SYSTEM.md рядом.
  */
 
-.metric-good { color: var(--color-good); }
-.metric-warn { color: var(--color-warn); }
-.metric-bad { color: var(--color-bad); }
-
-.metric-good-bg { background: rgb(var(--tertiary-rgb) / 0.18); color: var(--color-good); }
-.metric-warn-bg { background: rgb(var(--sand-rgb) / 0.22); color: var(--color-warn); }
-.metric-bad-bg { background: rgb(var(--bad-rgb) / 0.12); color: var(--color-bad); }
-
-/* Heading scale — one visual language for h1..h6 across the project.
-   h1 page title / h2 block title (with accent underline) / h3 group /
-   h4 table-group band / h5 tile label / h6 caption. */
 
 /**
  * ПОВЕРХНОСТЬ СОДЕРЖИМОГО — непрозрачная. Осознанно.
