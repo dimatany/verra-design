@@ -1,6 +1,6 @@
 {
   "name": "@verra/design",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Дизайн-система экосистемы Verra: палитра, шкала текста, семьи элементов и тесты-стражи",
   "license": "UNLICENSED",
   "private": true,
@@ -12,10 +12,25 @@
     "./tokens.css": "./tokens.css",
     "./components.css": "./components.css",
     "./fonts.css": "./fonts.css",
-    "./guards/*": "./guards/*"
+    "./guards/*": "./guards/*",
+    "./react/*": "./react/*"
   },
-  "files": ["index.css", "tokens.css", "components.css", "fonts.css", "fonts/", "guards/", "DESIGN_SYSTEM.md", "README.md"],
+  "files": [
+    "index.css",
+    "tokens.css",
+    "components.css",
+    "fonts.css",
+    "fonts/",
+    "guards/",
+    "DESIGN_SYSTEM.md",
+    "README.md",
+    "react/"
+  ],
   "scripts": {
     "test": "node --test guards/*.test.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
   }
 }

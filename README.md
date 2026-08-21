@@ -52,3 +52,26 @@ npm i github:dimatany/verra-design#v0.1.0
   цвета воронки) — остаются в продукте.
 - React-компоненты с поведением (Tabs, Modal, списки) — пока в продуктах:
   они сплетены с i18n и контекстом; переезд сюда — отдельный шаг.
+
+## React-слой (`react/`) — v0.2.0
+
+Компоненты с поведением, отвязанные от продукта: `Tabs`, `Modal`, `HoverTip`,
+`InfoHint`, `Icon`, `LiquidSelect`, `MultiSelect`, `AccountPicker`,
+`SortableTh`/`useSort`, `LoadError`, `useDropdownWidth`.
+
+Поставляются исходниками (.tsx) — в `next.config` продукта:
+
+```js
+transpilePackages: ['@verra/design']
+```
+
+Перевод — через продукт: оберните приложение один раз
+
+```tsx
+import { VerraDesignI18n } from '@verra/design/react/i18n';
+<VerraDesignI18n t={(uk, ru, en) => /* ваш механизм */}>…</VerraDesignI18n>
+```
+
+Без провайдера компоненты говорят по-английски. В пакет НЕ переехали
+`TableExportButtons` и `useTableRows` — они тянут экспорт документов и
+форматирование чисел продукта; отвяжем отдельным шагом.
