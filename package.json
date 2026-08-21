@@ -1,6 +1,6 @@
 {
   "name": "@verra/design",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Дизайн-система экосистемы Verra: палитра, шкала текста, семьи элементов и тесты-стражи",
   "license": "UNLICENSED",
   "private": true,
@@ -13,7 +13,7 @@
     "./components.css": "./components.css",
     "./fonts.css": "./fonts.css",
     "./guards/*": "./guards/*",
-    "./react/*": "./react/*"
+    "./react/*": "./react/*.tsx"
   },
   "files": [
     "index.css",
