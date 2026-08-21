@@ -188,6 +188,13 @@ a[aria-disabled='true'] {
   color: var(--color-neutral-dark);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+  /* Ступень шкалы у поля ОДНА — тело (как .t-body), и задаёт её пакет.
+     Пока ступени не было, каждый экран одевал поля сам: логин — 13px,
+     восстановление пароля — 17px, советник на телефоне — 17px «как
+     заголовок» (замечание владельца, 21.08.2026). Правило стоит ПОСЛЕ
+     шкалы .t-*, поэтому случайная ступень на поле больше не сработает. */
+  font-size: 15px;
+  line-height: 1.55;
 }
 .field::placeholder { color: rgb(var(--ink-rgb) / 0.45); }
 .field:focus {
