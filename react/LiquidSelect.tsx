@@ -113,9 +113,10 @@ export default function LiquidSelect({
             position: 'fixed',
             top: menuPosition.top,
             bottom: menuPosition.bottom,
-            left: clampMenuLeft(menuPosition.left, contentWidth ?? menuPosition.width),
-            // Menu width == trigger width (widest option). Same one number.
-            width: contentWidth ?? menuPosition.width,
+            left: clampMenuLeft(menuPosition.left, Math.max(contentWidth ?? 0, menuPosition.width)),
+            // Menu width == trigger width. Обычно это «самый длинный пункт»,
+            // но растянутый триггер (w-full на телефоне) меню обязано догнать.
+            width: Math.max(contentWidth ?? 0, menuPosition.width),
             maxHeight: menuPosition.maxHeight,
             zIndex: 2147483647,
           }}
@@ -185,7 +186,7 @@ export default function LiquidSelect({
           setOpen((current) => !current);
         }}
         style={{ width: contentWidth, maxWidth: '100%' }}
-        className={`btn-quiet glass-btn h-10 min-w-[150px] rounded-full border border-white/80 bg-white/94 px-4 t-data font-bold text-neutral-dark backdrop-blur-xl outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 flex items-center justify-between gap-3 ${buttonClassName}`}
+        className={`select-trigger btn-quiet glass-btn h-10 min-w-[150px] rounded-full border border-white/80 bg-white/94 px-4 t-data font-bold text-neutral-dark backdrop-blur-xl outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 flex items-center justify-between gap-3 ${buttonClassName}`}
       >
         <span className="truncate">{selected?.label || placeholder}</span>
         <svg
