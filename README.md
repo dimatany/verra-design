@@ -27,7 +27,7 @@ npm i github:dimatany/verra-design#v0.1.0
 В `package.json` продукта:
 
 ```json
-"test:design": "DESIGN_GUARD_ROOTS=src/components,src/app node --test node_modules/@verra/design/guards/"
+"test:design": "DESIGN_GUARD_ROOTS=src/components,src/app node --test node_modules/@verra/design/guards/*.test.mjs"
 ```
 
 Настройка через окружение:

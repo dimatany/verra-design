@@ -16,6 +16,6 @@
   },
   "files": ["index.css", "tokens.css", "components.css", "fonts.css", "fonts/", "guards/", "DESIGN_SYSTEM.md", "README.md"],
   "scripts": {
-    "test": "node --test guards/"
+    "test": "node --test guards/*.test.mjs"
   }
 }
