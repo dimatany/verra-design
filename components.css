@@ -798,20 +798,11 @@ a[aria-disabled='true'] {
   }
 }
 
-/* iOS Safari auto-zooms into any focused field whose font-size is < 16px, and
-   won't always let the user pinch back out — the screen ends up "stuck" zoomed
-   in. Many inputs across the app use Tailwind `text-xs` (12px), which triggers
-   this. Force every real text field to 16px on phones so focus never zooms.
-   Desktop is untouched; checkboxes/radios are excluded (they don't zoom and we
-   don't want to resize them). !important is needed to beat the `text-xs`
-   utility that sits inline on each field. */
-@media (max-width: 640px) {
-  input:not([type='checkbox']):not([type='radio']):not([type='range']),
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
-}
+/* Принудительные 16px на полях (старая защита от iOS-автозума) УДАЛЕНЫ
+   21.08.2026: они перебивали шкалу текста !important-ом — поля читались как
+   заголовки рядом с 11-13px подписями. Автозум теперь глушится настройкой
+   viewport продукта (maximumScale: 1; щипковый зум iOS при этом работает).
+   Поля подчиняются ТОЛЬКО ступеням шкалы из разметки. */
 
 /**
  * ВЫПАДАЮЩИЕ СПИСКИ: одна ширина на всех разрешениях (v0.4.4).
