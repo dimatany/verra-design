@@ -823,7 +823,14 @@ a[aria-disabled='true'] {
  */
 .select-trigger { max-width: 100%; }
 @media (max-width: 640px) {
-  .select-trigger { width: 100%; justify-content: space-between; }
+  /* Только внутри карточек-форм: у триггера inline-ширина «по самому длинному
+     пункту», на телефоне её перекрывает !important. Пикеры шапки (кабинет,
+     период) остаются компактными — шапка не форма. */
+  .glass-card .select-trigger,
+  .kpi-tile .select-trigger {
+    width: 100% !important;
+    justify-content: space-between;
+  }
 }
 
 /* Родные поля с внутренней минимальной шириной (дата на iOS) не имеют права
