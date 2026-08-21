@@ -1,0 +1,12 @@
+/**
+ * @verra/design — точка входа.
+ *
+ * В globals.css продукта, ПОСЛЕ `@import "tailwindcss";`:
+ *   @import "@verra/design/index.css";
+ *
+ * Свой характер бренда — блоком @theme ниже импорта: имена токенов общие,
+ * значения заменяемы.
+ */
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./components.css";

@@ -1,0 +1,133 @@
+/**
+ * @verra/design — ПАЛИТРА ЭКОСИСТЕМЫ.
+ *
+ * `@theme static` — не украшение, а условие работы графиков: без static
+ * Tailwind v4 выбрасывает из сборки токены, на которые нет ссылки в классах
+ * (цвета диаграмм живут в коде — 19.08.2026 они молча стали чёрными на проде).
+ *
+ * Продукт может переопределить значения СВОИМ блоком @theme ниже импорта —
+ * структура и имена общие, характер бренда заменяем.
+ */
+@theme static {
+  --color-primary: #26658C;
+  --color-primary-light: #54ACBF;
+  --color-primary-dark: #023859;
+  --color-secondary: #7E9BB0;
+  --color-secondary-light: #A9C0D0;
+  --color-tertiary: #2F8B5C;
+  --color-tertiary-light: #7FBD9C;
+  --color-neutral-dark: #011C40;
+  --color-neutral-light: #2A4C6B;
+  --color-brand-bg: #D8E3E9;
+
+  /* ── Полная палитра продукта ────────────────────────────────────────────
+     Здесь собраны ВСЕ цвета интерфейса. Раньше 550 из них были вписаны прямо
+     в разметку (`text-[#302825]`, `bg-[#8FA99B]/12`), и сменить палитру можно
+     было только обходом девяноста файлов — по этой же причине была невозможна
+     тёмная тема. Значения ниже — ТЕ ЖЕ, что стояли в разметке: перенос ничего
+     не перекрашивает. Имена смысловые: меняя цвет здесь, вы меняете его везде. */
+
+  /* Светофор значений */
+  --color-good: #1F7A55;
+  --color-warn: #8A6100;
+  --color-bad: #C0392B;
+  --color-good-deep: #175E42;
+  --color-bad-deep: #992D22;
+  --color-warn-deep: #6E4D00;
+  --color-warn-deeper: #7A5600;
+
+  /* Зелёная ветвь — уровни вложенности, полосы, бейджи */
+  --color-tertiary-deep: #24704A;
+  --color-tertiary-deeper: #1B5739;
+  --color-tertiary-mid: #2A7E52;
+  --color-tertiary-band: #1F6644;
+  --color-tertiary-dark: #256E4A;
+  --color-tertiary-darker: #1B5539;
+
+  /* Золото и песок — деньги, бюджеты, награды */
+  --color-gold: #C08A2A;
+  --color-gold-deep: #96681A;
+  --color-gold-mid: #8F6410;
+  --color-gold-soft: #DCA94C;
+  --color-gold-muted: #C79A4E;
+  --color-sand-deep: #B08A50;
+
+  /* Тёплая ветвь — акценты и подложки */
+  --color-primary-soft: #1D5175;
+  --color-clay: #C05F4C;
+  --color-clay-deep: #A64F3E;
+  --color-clay-deeper: #8E4234;
+
+  /* Светлые поверхности и текст на тёмных полосах */
+  --color-paper: #F6F9FB;
+  --color-paper-warm: #EDF3F7;
+  --color-band-ink: #E8F3F7;
+  --color-band-ink-cool: #DFF0F5;
+
+  /* Графики: собственные цвета диаграмм. До 20.08.2026 они были вписаны прямо
+     в код страниц, поэтому смена палитры перекрашивала интерфейс, а графики
+     оставались старыми — самая заметная из «непослушных» частей. */
+  --color-chart-bar-from: #26658C;
+  --color-chart-bar-to: #54ACBF;
+  --color-chart-tooltip: #FBFDFE;
+  --color-neutral-mid: #8CA3B5;
+  /* Оси, сетка и рамка подсказки диаграмм. До 21.08.2026 внутри графиков жили
+     rgba-значения СТАРОГО тёплого чернильного (#302825): смена палитры их не
+     трогала. Значения ниже — новый ink поверх бумаги на той же прозрачности. */
+  --color-chart-axis: #465A74;
+  --color-chart-axis-soft: #7C8B9E;
+  --color-chart-grid: #E5EAEE;
+  --color-chart-border: #DEE3E8;
+
+  /* Воронка: рекламные шаги — золотая ветвь, шаги сайта — зелёная, по светлоте
+     сверху вниз. Порядок здесь = порядок шагов на экране. */
+  --color-funnel-ad-1: #7FCBDB;
+  --color-funnel-ad-2: #26658C;
+  --color-funnel-site-1: #A8D4BC;
+  --color-funnel-site-2: #7FBD9C;
+  --color-funnel-site-3: #4F9E75;
+  --color-funnel-site-4: #24704A;
+
+  /* Тёмные основания */
+  /* Оправа — свой цвет, не цвет текста: панель можно затемнить, не трогая
+     буквы на страницах. «Штормовое небо» — почти чёрный с синим подтоном. */
+  --color-rail: #020E1A;
+  /* Яркий оранжевый — ТОЛЬКО заливки и полоски: на светлом фоне он даёт 2,5:1,
+     то есть в тексте нечитаем. Заметность даёт он, читаемость — тёмный янтарь. */
+  --color-orange-bright: #FF7A1A;
+  --color-ink-deep: #011026;
+  --color-ink-black: #00080F;
+  --color-steel: #26658C;
+
+  /* Каналы для полупрозрачных слоёв (тени, подложки, рамки). Каждому цвету —
+     свой канал: свести два разных цвета в один здесь значит незаметно
+     перекрасить интерфейс. */
+  --ink-rgb: 1 28 64;
+  --paper-rgb: 255 255 255;
+  --accent-rgb: 38 101 140;
+  --accent-band-rgb: 2 56 89;
+  --tertiary-rgb: 47 139 92;
+  --tertiary-band-rgb: 31 102 68;
+  --sand-rgb: 192 138 42;
+  --sand-soft-rgb: 223 233 240;
+  --bad-rgb: 192 57 43;
+  
+  --font-sans: "Fixel Text", "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Fixel Display", "Fixel Text", "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  
+  --shadow-premium: 0 4px 20px -2px rgb(var(--ink-rgb) / 0.05), 0 2px 6px -1px rgb(var(--ink-rgb) / 0.03);
+  --shadow-premium-hover: 0 10px 30px -4px rgb(var(--accent-rgb) / 0.12), 0 4px 12px -2px rgb(var(--ink-rgb) / 0.04);
+
+  /* Инверсные и печатные оттенки — светофор на тёмной полосе, полосы
+     таблиц при печати, границы служебных карточек. */
+  --color-accent-band-from: #023859;
+  --color-accent-band-to: #26658C;
+  --color-tertiary-band-to: #24704A;
+  --color-good-inverse: #CDE9DB;
+  --color-bad-inverse: #FFC9BB;
+  --color-warn-inverse: #F5DFAE;
+  --color-paper-bright: #FBFDFE;
+  --color-print-row: #EFF4F8;
+  --color-print-line: #DCE6EC;
+}
+}
