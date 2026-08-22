@@ -880,3 +880,18 @@ input[type='datetime-local'] {
   color: var(--color-neutral-dark);
   line-height: 1.25;
 }
+
+/**
+ * ТАБЛИЦА НА ТЕЛЕФОНЕ (v0.5.0) — прокрутка вбок, а не обрезка.
+ *
+ * `.table-scroll` — обёртка любой таблицы кабинета: на узком экране таблица
+ * не ужимается в нечитаемые колонки и не вылезает за карточку, а листается
+ * пальцем (у PR Hub таблица брендов уезжала за край — 22.08.2026).
+ * Правило мобильных таблиц пакета (sticky-подписи, неразрывные шапки) уже
+ * работает по классу .overflow-x-auto, поэтому он тут же.
+ */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll > table { min-width: max-content; }
