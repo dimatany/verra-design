@@ -38,10 +38,13 @@ export default function AccountPicker({
   className = '',
   buttonClassName = '',
 }: AccountPickerProps) {
-  if (!accounts || accounts.length < 2) return null;
-
+  // Хук вызывается ДО любого раннего выхода: при первом рендере с одним
+  // кабинетом React запоминал бы иной порядок хуков, и появление второго
+  // кабинета роняло бы компонент (найдено проверкой качества 22.08.2026).
   const t = useT();
   const allLabel = t('Усі кабінети', 'Все кабинеты', 'All accounts');
+
+  if (!accounts || accounts.length < 2) return null;
 
   const options = accounts.map((a) => ({ value: a.key, label: a.name, description: a.accountId }));
 
