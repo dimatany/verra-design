@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useVerraI18n } from './i18n';
+import { useT } from './i18n';
 
 /**
  * ВЫБОР ПЕРИОДА — один на экосистему (v0.6.0).
@@ -39,7 +39,7 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
   language?: string;
   timeZone?: string;
 }>) {
-  const { t } = useVerraI18n();
+  const t = useT();
 
   const isoDay = React.useCallback((offsetDays = 0) => {
     const d = new Date();
