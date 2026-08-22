@@ -33,7 +33,11 @@ export function useSort<T extends object>(rows: T[]) {
 
   const sorted = React.useMemo(() => {
     if (!sortKey) return rows;
-    const missing = (v: unknown) => v === null || v === undefined || v === '' || (typeof v === 'number' && Number.isNaN(v));
+    // Объект в ячейке сравнивать как строку нельзя: String({}) даёт
+    // «[object Object]», все такие строки равны — и сортировка молча врёт
+    // (найдено проверкой качества 22.08.2026). Считаем их пропусками.
+    const sortable = (v: unknown) => typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' || typeof v === 'bigint';
+    const missing = (v: unknown) => v === null || v === undefined || v === '' || !sortable(v) || (typeof v === 'number' && Number.isNaN(v));
     return [...rows].sort((a, b) => {
       const av = (a as Record<string, unknown> | null | undefined)?.[sortKey];
       const bv = (b as Record<string, unknown> | null | undefined)?.[sortKey];
@@ -41,9 +45,10 @@ export function useSort<T extends object>(rows: T[]) {
       if (missing(av)) return 1; // gaps always last
       if (missing(bv)) return -1;
       if (typeof av === 'number' && typeof bv === 'number') return dir === 'desc' ? bv - av : av - bv;
-      return dir === 'desc'
-        ? UK_COLLATOR.compare(String(bv), String(av))
-        : UK_COLLATOR.compare(String(av), String(bv));
+      // сюда доходят только примитивы (см. sortable выше)
+      const as = String(av as string | number | boolean | bigint);
+      const bs = String(bv as string | number | boolean | bigint);
+      return dir === 'desc' ? UK_COLLATOR.compare(bs, as) : UK_COLLATOR.compare(as, bs);
     });
   }, [rows, sortKey, dir]);
 

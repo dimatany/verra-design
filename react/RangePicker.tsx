@@ -14,6 +14,7 @@ import { useT } from './i18n';
  *
  * Значение — строка: '7d' | '30d' | '90d' | 'ytd' | 'custom:ГГГГ-ММ-ДД:ГГГГ-ММ-ДД'.
  */
+/** Значение периода: '7d' | '30d' | '90d' | 'ytd' | 'custom:ОТ:ДО'. */
 export type RangeValue = string;
 const PRESETS = ['7d', '30d', '90d', 'ytd'] as const;
 type Preset = (typeof PRESETS)[number];

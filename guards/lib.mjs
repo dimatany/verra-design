@@ -36,7 +36,7 @@ export function tsxFiles() {
 /** Все теги `<name …>` вместе с атрибутами — включая шаблонные className. */
 export function tags(source, name) {
   const found = [];
-  const re = new RegExp(`<${name}\\b`, 'g');
+  const re = new RegExp(String.raw`<${name}\b`, 'g');
   let m;
   while ((m = re.exec(source))) {
     let depth = 0;

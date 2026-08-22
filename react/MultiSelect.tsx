@@ -79,11 +79,12 @@ export default function MultiSelect({
   };
 
   // «Выбрано: N», not «Все: N» — the truncated all-label read as «all N».
-  const summary = isAll
-    ? allLabel
-    : selected.length === 1
-    ? options.find((o) => o.value === selected[0])?.label ?? selected[0]
-    : `${t('Обрано', 'Выбрано', 'Selected')}: ${selected.length}`;
+  const summary = React.useMemo(() => {
+    if (isAll) return allLabel;
+    if (selected.length === 1) return options.find((o) => o.value === selected[0])?.label ?? selected[0];
+    return `${t('Обрано', 'Выбрано', 'Selected')}: ${selected.length}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- t пересоздаётся каждый рендер, язык уже учтён провайдером
+  }, [isAll, allLabel, options, selected]);
 
   const check = (on: boolean) => (
     <span
