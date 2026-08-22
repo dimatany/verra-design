@@ -861,3 +861,22 @@ input[type='datetime-local'] {
   max-width: 100%;
   min-width: 0;
 }
+
+/**
+ * ЗАГОЛОВОК БЛОКА (v0.4.9) — шапка карточки-бенто.
+ *
+ * Жил копией в каждом продукте: у Metriverra `.heading-block` 21px, у PR Hub
+ * `.echo-heading` 15px — и одинаковые по смыслу блоки техчасти выглядели
+ * разными (замечание владельца 22.08.2026: «во всей технической части
+ * одинаковый внешний вид»). Теперь один класс на экосистему; продуктовые
+ * копии удалены.
+ */
+.heading-block {
+  font-family: var(--font-display);
+  /* ступень t-h2 шкалы, а не собственный размер */
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-neutral-dark);
+  line-height: 1.25;
+}
