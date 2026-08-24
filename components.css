@@ -1014,6 +1014,13 @@ input[type='datetime-local'] {
     padding: 1rem;
     justify-content: center;
   }
+  /* В 76 px знак продукта и кнопка рядом не помещаются: в узком виде остаётся
+     кнопка — ею же колонка и разворачивается обратно. */
+  html[data-rail='narrow'] .rail-brand { display: none; }
+  html[data-rail='narrow'] .rail-toggle { margin-left: 0; }
+  /* Стрелка раскрывашки в узком виде не отжимается вправо — её просто нет
+     места отжимать. */
+  html[data-rail='narrow'] .rail-item .rail-caret { margin-left: 0; }
   html[data-rail='narrow'] .rail-foot {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
