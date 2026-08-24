@@ -463,6 +463,12 @@ a[aria-disabled='true'] {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x proximity;
+
+  /* Внутри сетки закладки занимают ВСЮ строку. Иначе они получают одну
+     колонку из двенадцати, и ряд закладок складывается в столбик — так
+     «Настройки» PR-хаба выглядели 24.08.2026. Вне сетки свойство ничего не
+     делает, поэтому правило безопасно для всех остальных мест. */
+  grid-column: 1 / -1;
 }
 .tabs-folder::-webkit-scrollbar { display: none; }
 .tabs-folder > button { flex: none; scroll-snap-align: start; }
