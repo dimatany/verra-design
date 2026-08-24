@@ -983,3 +983,24 @@ input[type='datetime-local'] {
   .action-row { flex-wrap: wrap; gap: 6px; }
   .action-row .action-label { display: inline; }
 }
+
+/* ── УЗКАЯ БОКОВАЯ КОЛОНКА (v0.7.6) ───────────────────────────────────────
+   Состояние объявляет продукт: data-rail="narrow" на <html>. Правила здесь,
+   потому что колонка собирается по-разному: в одном продукте её рисует
+   клиентский компонент, в другом — сервер, и React-состояние туда не достаёт.
+   Общий признак — классы .rail-item (строка меню) и .rail-label (подпись,
+   которая в узком виде исчезает).
+
+   Только на компьютере: на телефоне колонка выезжает поверх страницы, и
+   прятать в ней подписи незачем. */
+@media (min-width: 1024px) {
+  html[data-rail='narrow'] .rail-shell { width: 76px; }
+  html[data-rail='narrow'] .rail-label { display: none; }
+  html[data-rail='narrow'] .rail-item {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  html[data-rail='narrow'] .rail-head { padding: 1rem; justify-content: center; }
+  html[data-rail='narrow'] .rail-foot { padding-left: 0.5rem; padding-right: 0.5rem; align-items: center; }
+}
