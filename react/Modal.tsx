@@ -28,9 +28,35 @@ export default function Modal({ onClose, ariaLabel, panelClassName = 'w-full max
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  /**
+   * Пока окно открыто, страница за ним не прокручивается.
+   *
+   * Без этого на телефоне выходило так: человек тянет длинную форму, палец
+   * доходит до края панели — и дальше едет САМА СТРАНИЦА, утаскивая окно под
+   * верхнюю полосу. Верх формы становилось не достать (замечание владельца
+   * 24.08.2026). Позицию страницы запоминаем и возвращаем при закрытии, иначе
+   * список за окном прыгнет в начало.
+   */
+  React.useEffect(() => {
+    const { body } = document;
+    const scrollY = window.scrollY;
+    const previous = { position: body.style.position, top: body.style.top, width: body.style.width, overflow: body.style.overflow };
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.width = '100%';
+    body.style.overflow = 'hidden';
+    return () => {
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.width = previous.width;
+      body.style.overflow = previous.overflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
+
   return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center p-4"
+      className="modal-stage fixed inset-0 flex items-center justify-center"
       style={{ zIndex: 2147483647 }}
       role="dialog"
       aria-modal="true"

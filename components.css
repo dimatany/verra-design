@@ -268,9 +268,22 @@ a[aria-disabled='true'] {
   -webkit-backdrop-filter: blur(3px);
   cursor: pointer;
 }
+/* Сцена окна: высота — по ВИДИМОЙ части экрана (dvh), а не по 100vh, в
+   которые iOS включает область под полосами браузера. Отступы считают вырезы
+   телефона: иначе верх окна уходит под чёлку и под адресную строку. */
+.modal-stage {
+  height: 100dvh;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+}
 .modal-panel {
   position: relative;
   z-index: 10;
+  /* Панель никогда не выше видимой части экрана: длинная форма прокручивается
+     ВНУТРИ окна, а не утаскивает его наверх. */
+  max-height: 100%;
+  overflow-y: auto;
+  /* Докрутили до края формы — страница за окном не подхватывает движение. */
+  overscroll-behavior: contain;
   background: var(--color-paper-bright);
   border: 1px solid rgb(var(--ink-rgb) / 0.10);
   border-radius: 16px;
