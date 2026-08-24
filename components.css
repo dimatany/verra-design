@@ -1026,6 +1026,10 @@ input[type='datetime-local'] {
      места отжимать. */
   html[data-rail='narrow'] .rail-item .rail-caret { margin-left: 0; }
   html[data-rail='narrow'] .rail-icon-only { display: inline-flex; }
+  /* Список смены приложения в узкой колонке не может тянуться по её ширине —
+     от неё осталось 76 px. Раскрывается вправо, той же шириной, что и в
+     развёрнутом виде. */
+  html[data-rail='narrow'] .rail-pop { right: auto; width: 220px; left: 0.5rem; }
   html[data-rail='narrow'] .rail-wide-only { display: none; }
   html[data-rail='narrow'] .rail-foot {
     padding-left: 0.5rem;
