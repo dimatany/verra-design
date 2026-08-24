@@ -114,9 +114,15 @@ export default function LiquidSelect({
             top: menuPosition.top,
             bottom: menuPosition.bottom,
             left: clampMenuLeft(menuPosition.left, Math.max(contentWidth ?? 0, menuPosition.width)),
-            // Menu width == trigger width. Обычно это «самый длинный пункт»,
-            // но растянутый триггер (w-full на телефоне) меню обязано догнать.
-            width: Math.max(contentWidth ?? 0, menuPosition.width),
+            // Ширина меню: НЕ МЕНЬШЕ триггера (растянутый триггер меню обязано
+            // догнать), дальше — по самому длинному пункту. Раньше ширина
+            // бралась ровно из замера-двойника, и ошибка замера в пару пикселей
+            // резала название пункта до «E…» (замечено 24.08.2026 на выборе
+            // кабинета). Теперь длину задаёт сам текст, а замер работает
+            // нижней границей — обрезать его больше нечему.
+            minWidth: Math.max(contentWidth ?? 0, menuPosition.width),
+            width: 'max-content',
+            maxWidth: 'calc(100vw - 32px)',
             maxHeight: menuPosition.maxHeight,
             zIndex: 2147483647,
           }}
@@ -141,7 +147,7 @@ export default function LiquidSelect({
                   }`}
                 >
                   <span className="min-w-0">
-                    <span className="block truncate t-body font-bold leading-tight">
+                    <span className="block whitespace-nowrap t-body font-bold leading-tight">
                       {option.label}
                     </span>
                     {option.description && (
