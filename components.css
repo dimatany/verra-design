@@ -770,11 +770,14 @@ a[aria-disabled='true'] {
   }
 }
 
-/* Long row labels (URLs, campaign names) must never squeeze the value
-   columns off-screen: the pinned first column is capped at ~half the
-   viewport and ellipsized — the standard analytics-table pattern
-   (GA4 / Search Console / Ahrefs). Numbers stay fully visible; the full
-   label is still readable on desktop. */
+/* ДЛИННОЕ ИМЯ СТРОКИ НА ТЕЛЕФОНЕ — ДВЕ СТРОКИ, ПОЛНОЕ ПО КАСАНИЮ (v0.7.1).
+   Закреплённый столбец по-прежнему занимает не больше 42% ширины, иначе
+   цифры уезжают за экран. Но раньше имя резалось В ОДНУ строку, и у длинных
+   названий (группы рассылок, адреса страниц, кампании) от смысла оставался
+   огрызок: «Переход на 7 не отправляли а\в те». Решение владельца
+   24.08.2026: показывать ДВЕ строки, а по касанию раскрывать целиком.
+   Раскрытие включает класс на ячейке — его ставит один общий обработчик
+   пакета (react/TableNameTap). */
 @media (max-width: 1023.5px) {
   .overflow-x-auto > table thead tr > *:first-child,
   .overflow-x-auto > table tbody tr > *:first-child,
@@ -783,13 +786,26 @@ a[aria-disabled='true'] {
        половины ширины, и соседняя колонка показывалась огрызком. */
     max-width: min(42vw, 340px);
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    /* Две строки вместо одной: в одну не помещался даже смысл названия. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  /* Касание раскрывает имя целиком — потолка по числу строк нет. */
+  .overflow-x-auto > table tr > *:first-child.cell-name-open {
+    display: block;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+    overflow: visible;
   }
   /* full-width band/summary cells keep wrapping normally */
   .overflow-x-auto > table tr > td[colspan]:first-child,
   .overflow-x-auto > table tr > th[colspan]:first-child {
     max-width: none;
+    display: table-cell;
     white-space: normal;
   }
 }
