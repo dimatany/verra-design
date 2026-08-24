@@ -1002,7 +1002,11 @@ input[type='datetime-local'] {
    Только на компьютере: на телефоне колонка выезжает поверх страницы, и
    прятать в ней подписи незачем. */
 @media (min-width: 1024px) {
-  html[data-rail='narrow'] .rail-shell { width: 76px; }
+  html[data-rail='narrow'] /* Значок вместо подписи — только в узкой колонке; в остальных случаях его
+   нет, а подпись читается словами. */
+.rail-icon-only { display: none; }
+
+.rail-shell { width: 76px; }
   html[data-rail='narrow'] .rail-offset { margin-left: 76px; }
   html[data-rail='narrow'] .rail-label { display: none; }
   html[data-rail='narrow'] .rail-item {
@@ -1021,6 +1025,8 @@ input[type='datetime-local'] {
   /* Стрелка раскрывашки в узком виде не отжимается вправо — её просто нет
      места отжимать. */
   html[data-rail='narrow'] .rail-item .rail-caret { margin-left: 0; }
+  html[data-rail='narrow'] .rail-icon-only { display: inline-flex; }
+  html[data-rail='narrow'] .rail-wide-only { display: none; }
   html[data-rail='narrow'] .rail-foot {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
