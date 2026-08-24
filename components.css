@@ -718,12 +718,40 @@ a[aria-disabled='true'] {
   }
 }
 
+/* ---------- Таблицы: прокрутка и закреплённый первый столбец ----------
+
+   ПРАВИЛО (замечание владельца 24.08.2026): на телефоне первый столбец таблицы
+   закреплён ВСЕГДА, во всех продуктах, без участия автора таблицы. Раньше это
+   держалось на двух условиях, о которых надо было помнить: обёртка именно с
+   классом .overflow-x-auto и таблица без border-collapse. Забыли одно из них —
+   имя строки уезжало от своих цифр.
+
+   Теперь: компонент пакета TableRules сам находит прокручиваемого предка
+   таблицы и помечает его .table-scroll, а таблицу — .table-pinned; если
+   обёртки нет вовсе, он делает прокручиваемым ближайшего родителя.
+   .overflow-x-auto остаётся ради разметки, которая уже написана. */
+.table-scroll { overflow-x: auto; }
+/* Обёртка, созданная на лету: у неё не должно быть своих отступов и фона —
+   она только даёт таблице прокрутку. */
+.table-scroll-made { min-width: 0; }
+
+/* border-collapse ломает закрепление ячеек в Safari (iPhone) — там столбец не
+   закрепляется вовсе. Границы в наших таблицах рисуют сами ячейки, поэтому
+   раздельная модель ничего не меняет на вид. */
+table.table-pinned {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
 /* ---------- Mobile/tablet tables: pinned first column ----------
    Horizontally scrollable tables keep the row-label column fixed so the
    meaning never scrolls away; soft right shadow hints "more columns". */
 @media (max-width: 1023.5px) {
+  table.table-pinned thead tr > *:first-child,
   .overflow-x-auto > table thead tr > *:first-child,
+  table.table-pinned tbody tr > *:first-child,
   .overflow-x-auto > table tbody tr > *:first-child,
+  table.table-pinned tfoot tr > *:first-child,
   .overflow-x-auto > table tfoot tr > *:first-child {
     position: sticky;
     left: 0;
@@ -732,21 +760,26 @@ a[aria-disabled='true'] {
     box-shadow: 10px 0 14px -10px rgb(var(--ink-rgb) / 0.22);
   }
   /* итоговая строка: непрозрачный фон, чтобы цифры не просвечивали под «Итого» */
+  table.table-pinned tfoot tr > *:first-child,
   .overflow-x-auto > table tfoot tr > *:first-child {
     background-color: var(--color-print-line);
   }
   /* group band rows (full-width colspan cells) are not pinnable */
+  table.table-pinned tr > td[colspan]:first-child,
   .overflow-x-auto > table tr > td[colspan]:first-child,
+  table.table-pinned tr > th[colspan]:first-child,
   .overflow-x-auto > table tr > th[colspan]:first-child {
     position: static;
     background: transparent;
     box-shadow: none;
   }
   /* dark summary rows keep their ink background in the pinned cell */
+  table.table-pinned tr.band-ink > *:first-child,
   .overflow-x-auto > table tr.band-ink > *:first-child {
     background-color: var(--color-neutral-dark);
   }
   /* subtotal rows keep their tinted look */
+  table.table-pinned tr[class*='subtotal'] > *:first-child,
   .overflow-x-auto > table tr[class*='subtotal'] > *:first-child {
     background-color: var(--color-print-line);
   }
@@ -757,6 +790,7 @@ a[aria-disabled='true'] {
    (passport metric cells, count pills, ⓘ icons) on top of each other at
    left:14px while scrolling. Grids (engagement passports) never pin. */
 @media (max-width: 1023.5px) {
+  table.table-pinned tr > td[colspan] > div > *:first-child,
   .overflow-x-auto > table tr > td[colspan] > div > *:first-child {
     position: sticky;
     left: 14px;
@@ -768,11 +802,13 @@ a[aria-disabled='true'] {
      оставались обрубки «ОМMЕНТАРИИ», «ОСТЫ», «UPLAY».
      Правильное место для подробностей на телефоне — панель во всю ширину
      экрана, которая горизонтально не двигается вообще. */
+  table.table-pinned tr > td[colspan] > div.grid,
   .overflow-x-auto > table tr > td[colspan] > div.grid {
     position: sticky;
     left: 0;
     width: min(100%, calc(100vw - 3rem));
   }
+  table.table-pinned tr > td[colspan] > div.grid > *,
   .overflow-x-auto > table tr > td[colspan] > div.grid > * {
     position: static;
     display: block;
@@ -788,8 +824,11 @@ a[aria-disabled='true'] {
    Раскрытие включает класс на ячейке — его ставит один общий обработчик
    пакета (react/TableNameTap). */
 @media (max-width: 1023.5px) {
+  table.table-pinned thead tr > *:first-child,
   .overflow-x-auto > table thead tr > *:first-child,
+  table.table-pinned tbody tr > *:first-child,
   .overflow-x-auto > table tbody tr > *:first-child,
+  table.table-pinned tfoot tr > *:first-child,
   .overflow-x-auto > table tfoot tr > *:first-child {
     /* 42vw вместо 46: на узком экране закреплённый столбец съедал больше
        половины ширины, и соседняя колонка показывалась огрызком. */
@@ -804,6 +843,7 @@ a[aria-disabled='true'] {
     overflow-wrap: anywhere;
   }
   /* Касание раскрывает имя целиком — потолка по числу строк нет. */
+  table.table-pinned tr > *:first-child.cell-name-open,
   .overflow-x-auto > table tr > *:first-child.cell-name-open {
     display: block;
     -webkit-line-clamp: none;
@@ -811,7 +851,9 @@ a[aria-disabled='true'] {
     overflow: visible;
   }
   /* full-width band/summary cells keep wrapping normally */
+  table.table-pinned tr > td[colspan]:first-child,
   .overflow-x-auto > table tr > td[colspan]:first-child,
+  table.table-pinned tr > th[colspan]:first-child,
   .overflow-x-auto > table tr > th[colspan]:first-child {
     max-width: none;
     display: table-cell;
@@ -842,12 +884,15 @@ a[aria-disabled='true'] {
 /* table headers never wrap on scrollable screens: a column and its
    numbers keep one clean width, no two-line header stubs */
 @media (max-width: 1023.5px) {
+  table.table-pinned th,
   .overflow-x-auto > table th {
     white-space: nowrap;
   }
   /* stronger seam under the pinned column so half-scrolled columns
      read as "behind", not as stray characters */
+  table.table-pinned thead tr > *:first-child,
   .overflow-x-auto > table thead tr > *:first-child,
+  table.table-pinned tbody tr > *:first-child,
   .overflow-x-auto > table tbody tr > *:first-child {
     box-shadow: 14px 0 16px -12px rgb(var(--ink-rgb) / 0.38);
   }
@@ -919,7 +964,7 @@ input[type='datetime-local'] {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-.table-scroll > table { min-width: max-content; }
+table.table-pinned { min-width: max-content; }
 
 /**
  * ВЫПАДАЮЩАЯ ПАНЕЛЬ (v0.5.1) — слой поверх содержимого.
