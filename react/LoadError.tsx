@@ -27,7 +27,7 @@ export default function LoadError({
       <button
         type="button"
         onClick={onRetry}
-        className="glass-btn btn-quiet t-cap font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg cursor-pointer"
+        className="btn btn-sm glass-btn btn-quiet"
       >
         {t('Повторити', 'Повторить', 'Retry')}
       </button>

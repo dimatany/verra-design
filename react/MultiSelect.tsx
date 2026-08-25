@@ -119,7 +119,7 @@ export default function MultiSelect({
         type="button"
         onClick={() => { place(); setOpen((o) => !o); }}
         style={{ width: contentWidth, maxWidth: '100%' }}
-        className={`select-trigger btn btn-quiet glass-btn h-10 min-w-[200px] rounded-full px-4 t-data font-bold outline-none flex items-center justify-between gap-3 ${buttonClassName}`}
+        className={`select-trigger glass-btn min-w-[200px] outline-none ${buttonClassName}`}
       >
         <span className="truncate">{summary}</span>
         <svg className={`h-4 w-4 shrink-0 text-neutral-dark/80 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="none">
@@ -148,9 +148,8 @@ export default function MultiSelect({
               <button
                 type="button"
                 onClick={() => onChange([])}
-                className={`flex w-full items-center gap-3 rounded-[18px] px-4 py-3 text-left transition-all ${
-                  isAll ? 'btn-primary' : 'btn-quiet text-neutral-dark/78'
-                }`}
+                className={`pop-item ${isAll ? 'is-on' : ''}`}
+                aria-selected={isAll}
               >
                 {check(isAll)}
                 <span className="t-body font-bold leading-tight">{allLabel}</span>
@@ -162,7 +161,7 @@ export default function MultiSelect({
                     key={o.value}
                     type="button"
                     onClick={() => toggle(o.value)}
-                    className="btn-quiet flex w-full items-center gap-3 rounded-[18px] px-4 py-3 text-left text-neutral-dark/85 transition-all"
+                    className="pop-item"
                   >
                     {check(on)}
                     <span className="min-w-0">

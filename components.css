@@ -776,6 +776,18 @@ button:disabled.btn-quiet,
  * задаёт вид, а не место применения. Внешность переехала сюда (25.08.2026).
  */
 .select-trigger {
+  /* Геометрия переключателя — здесь, а не на странице: он выглядит одинаково
+     на всех фильтрах обоих продуктов (25.08.2026). */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
   border: 1px solid rgb(var(--paper-rgb) / 0.8);
   background: rgb(var(--paper-rgb) / 0.94);
   color: var(--color-neutral-dark);
@@ -1128,15 +1140,36 @@ table.table-pinned { min-width: max-content; }
 }
 
 .pop-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
+  min-height: 40px;
   text-align: left;
   padding: 10px 16px;
   border-radius: 18px;
   font-size: 13px;   /* ступень .t-data */
   line-height: 1.45;
   font-weight: 700;
+  background: transparent;
+  border: 1px solid transparent;
+  color: color-mix(in srgb, var(--color-neutral-dark) 85%, transparent);
   transition: background-color 0.18s, color 0.18s, box-shadow 0.18s;
   cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pop-item:hover { background: color-mix(in srgb, var(--color-neutral-dark) 7%, transparent); }
+}
+/**
+ * ВЫБРАННЫЙ ПУНКТ. До 25.08.2026 пункты списка одевались в кнопочные семьи:
+ * выбранный — в `btn-primary`, остальные — в `btn-quiet`. Из-за этого в
+ * выпадающем списке сидели «кнопки», которые кнопками не были, и любое
+ * изменение кнопок дёргало списки. Категория теперь своя.
+ */
+.pop-item[aria-selected='true'],
+.pop-item.is-on {
+  background: var(--color-rail);
+  color: var(--color-band-ink);
 }
 
 /**

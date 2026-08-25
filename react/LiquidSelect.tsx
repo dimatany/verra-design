@@ -197,8 +197,8 @@ export default function LiquidSelect({
                   }}
                   className={`flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-left transition-[background-color,color,box-shadow] duration-150 ${
                     active
-                      ? 'btn-primary shadow-pick'
-                      : `btn-quiet bg-transparent text-neutral-dark/78 ${focused ? 'ring-2 ring-primary/35' : ''}`
+                      ? 'is-on shadow-pick'
+                      : `${focused ? 'ring-2 ring-primary/35' : ''}`
                   }`}
                 >
                   <span className="min-w-0">
@@ -265,7 +265,7 @@ export default function LiquidSelect({
           });
         }}
         style={{ width: contentWidth, maxWidth: '100%' }}
-        className={`select-trigger btn btn-quiet glass-btn h-10 min-w-[150px] rounded-full px-4 t-data font-bold outline-none flex items-center justify-between gap-3 ${buttonClassName}`}
+        className={`select-trigger glass-btn min-w-[150px] outline-none ${buttonClassName}`}
       >
         <span className="truncate">{selected?.label || placeholder}</span>
         <svg

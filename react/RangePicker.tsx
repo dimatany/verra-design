@@ -124,7 +124,7 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
         type="button"
         onClick={() => { setIsOpen(!isOpen); setError(''); }}
         aria-expanded={isOpen}
-        className="btn-quiet glass-btn !min-w-0 sm:!min-w-[170px] max-w-[46vw] sm:max-w-none text-neutral-dark rounded-full px-4 py-1.5 t-data font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer h-8 text-center flex items-center justify-between gap-2 backdrop-blur-xl"
+        className="select-trigger glass-btn !min-w-0 sm:!min-w-[170px] max-w-[46vw] sm:max-w-none focus:outline-none focus:ring-2 focus:ring-primary/20 backdrop-blur-xl"
       >
         <span className="truncate">{activeLabel}</span>
         <svg
@@ -143,7 +143,7 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
                 key={preset}
                 type="button"
                 onClick={() => selectPreset(preset)}
-                className={`pop-item ${value === preset ? 'btn-primary shadow-pick' : 'btn-quiet text-neutral-dark/75'}`}
+                className={`pop-item ${value === preset ? 'is-on shadow-pick' : ''}`}
               >
                 {labels[preset]}
               </button>
@@ -152,7 +152,7 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
             <button
               type="button"
               onClick={() => { setIsCustomOpen(true); setError(''); }}
-              className={`pop-item ${value.startsWith('custom:') || isCustomOpen ? 'btn-primary shadow-pick' : 'btn-quiet text-neutral-dark/75'}`}
+              className={`pop-item ${value.startsWith('custom:') || isCustomOpen ? 'is-on shadow-pick' : ''}`}
             >
               {labels.custom}
             </button>
@@ -187,10 +187,10 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
               {error && <p className="mt-3 t-data font-semibold metric-bad leading-tight">{error}</p>}
 
               <div className="mt-4 flex justify-end gap-2">
-                <button type="button" onClick={cancelCustom} className="glass-btn btn-quiet h-9 rounded-full px-4 t-data font-bold">
+                <button type="button" onClick={cancelCustom} className="btn btn-pill glass-btn btn-quiet">
                   {labels.cancel}
                 </button>
-                <button type="button" onClick={applyCustom} className="glass-btn btn-primary h-9 rounded-full px-5 t-data font-bold hover:brightness-105">
+                <button type="button" onClick={applyCustom} className="btn btn-pill glass-btn btn-primary hover:brightness-105">
                   {labels.apply}
                 </button>
               </div>

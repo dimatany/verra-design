@@ -73,7 +73,7 @@ export function TableRowsFooter({
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
-        className="btn-primary glass-btn px-4 py-2 rounded-xl t-cap font-bold uppercase tracking-wide inline-flex items-center gap-1.5"
+        className="btn glass-btn btn-primary"
       >
         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d={expanded ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6'} />

@@ -55,7 +55,7 @@ export default function LanguagePicker({
         onClick={() => setOpen(true)}
         title={title}
         aria-label={title}
-        className={`btn-quiet glass-btn h-8 min-w-8 rounded-full backdrop-blur-sm flex items-center justify-center gap-1 px-2 text-neutral-dark/80 hover:text-neutral-dark cursor-pointer ${className}`}
+        className={`btn btn-sm btn-pill glass-btn btn-quiet backdrop-blur-sm ${className}`}
       >
         {chosen ? (
           <span className="t-cap font-bold uppercase tracking-wider px-0.5">{value}</span>
@@ -87,7 +87,7 @@ export default function LanguagePicker({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="btn-quiet glass-btn glass-btn-flat w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-neutral-dark/70 hover:text-neutral-dark cursor-pointer"
+              className="btn btn-sm btn-icon btn-pill glass-btn glass-btn-flat btn-quiet shrink-0"
               aria-label={t('Закрити', 'Закрыть', 'Close')}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,9 +104,8 @@ export default function LanguagePicker({
                   key={option.code}
                   type="button"
                   onClick={() => { onPick(option.code); setOpen(false); }}
-                  className={`glass-btn glass-btn-flat rounded-2xl border p-3 flex items-center gap-3 text-left transition-all cursor-pointer ${
-                    active ? 'btn-primary shadow-pick' : 'btn-quiet text-neutral-dark'
-                  }`}
+                  className={`pop-item glass-btn glass-btn-flat ${active ? 'is-on shadow-pick' : ''}`}
+                  aria-selected={active}
                 >
                   <span className="t-kpi leading-none shrink-0" aria-hidden="true">{option.flag}</span>
                   <span className="min-w-0">
