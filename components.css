@@ -1147,6 +1147,22 @@ table.table-pinned { min-width: max-content; }
    а раздел читается словами. */
 .rail-icon-only { display: none; }
 
+/**
+ * Переключатель приложения в боковой колонке. Это не кнопка действия, поэтому
+ * семьи кнопок ему не подходят — но и рисовать себе рамку с заливкой руками он
+ * не должен (аудит 25.08.2026). Вид описан здесь, один раз.
+ */
+.rail-item-switch {
+  border: 1px solid rgb(var(--paper-rgb) / 0.15);
+  background: rgb(var(--paper-rgb) / 0.08);
+  border-radius: 12px;
+  color: rgb(var(--band-ink-rgb, var(--paper-rgb)) / 0.85);
+  transition: background-color 0.16s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .rail-item-switch:hover { background: rgb(var(--paper-rgb) / 0.14); }
+}
+
 @media (min-width: 1024px) {
   html[data-rail='narrow'] .rail-shell { width: 76px; }
   html[data-rail='narrow'] .rail-offset { margin-left: 76px; }
