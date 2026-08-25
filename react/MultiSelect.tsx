@@ -55,7 +55,9 @@ export default function MultiSelect({
     const outside = (e: MouseEvent) => {
       const t = e.target as Node;
       if (rootRef.current?.contains(t)) return;
-      if (document.getElementById('multi-select-portal')?.contains(t)) return;
+      // Зацепка для «клик мимо» — отдельным признаком: `id` у меню уже занят
+      // связкой с кнопкой (aria-controls), а двух id у элемента не бывает.
+      if (document.querySelector('[data-multi-select-portal]')?.contains(t)) return;
       setOpen(false);
     };
     document.addEventListener('mousedown', outside);
@@ -140,7 +142,7 @@ export default function MultiSelect({
                 btnRef.current?.focus();
               }
             }}
-            id="multi-select-portal"
+            data-multi-select-portal=""
             style={{ position: 'fixed', top: pos.top, left: clampMenuLeft(pos.left, contentWidth ?? pos.width), width: contentWidth ?? pos.width, zIndex: 2147483647 }}
             className="overflow-hidden rounded-[22px] border chrome-glass p-2 shadow-[0_28px_80px_rgb(var(--ink-rgb)/0.22)]"
           >
