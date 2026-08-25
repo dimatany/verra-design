@@ -157,13 +157,16 @@ a[aria-disabled='true'] {
  */
 button:disabled.btn-primary,
 .btn-primary[aria-disabled='true'] {
-  background: color-mix(in srgb, var(--color-rail) 38%, var(--color-paper));
-  color: color-mix(in srgb, var(--color-band-ink) 72%, transparent);
+  /* 26.08.2026: приглушение до 38% читалось отдельной СЕРОЙ кнопкой рядом с
+     чёрными. Выключенная остаётся явно тёмной — та же кнопка, просто пока
+     нечего нажимать. */
+  background: color-mix(in srgb, var(--color-rail) 68%, var(--color-paper));
+  color: color-mix(in srgb, var(--color-band-ink) 60%, transparent);
 }
 button:disabled.btn-danger,
 .btn-danger[aria-disabled='true'] {
-  background: color-mix(in srgb, var(--color-bad) 32%, var(--color-paper));
-  color: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  background: color-mix(in srgb, var(--color-bad) 58%, var(--color-paper));
+  color: color-mix(in srgb, var(--color-paper) 80%, transparent);
 }
 button:disabled.btn-quiet,
 .btn-quiet[aria-disabled='true'] {
