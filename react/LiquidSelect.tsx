@@ -265,7 +265,7 @@ export default function LiquidSelect({
           });
         }}
         style={{ width: contentWidth, maxWidth: '100%' }}
-        className={`select-trigger btn-quiet glass-btn h-10 min-w-[150px] rounded-full border border-white/80 bg-white/94 px-4 t-data font-bold text-neutral-dark backdrop-blur-xl outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 flex items-center justify-between gap-3 ${buttonClassName}`}
+        className={`select-trigger btn btn-quiet glass-btn h-10 min-w-[150px] rounded-full px-4 t-data font-bold outline-none flex items-center justify-between gap-3 ${buttonClassName}`}
       >
         <span className="truncate">{selected?.label || placeholder}</span>
         <svg

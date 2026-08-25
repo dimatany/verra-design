@@ -119,7 +119,7 @@ export default function MultiSelect({
         type="button"
         onClick={() => { place(); setOpen((o) => !o); }}
         style={{ width: contentWidth, maxWidth: '100%' }}
-        className={`btn-quiet glass-btn h-10 min-w-[200px] rounded-full border border-white/80 bg-white/94 px-4 t-data font-bold text-neutral-dark backdrop-blur-xl outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 flex items-center justify-between gap-3 ${buttonClassName}`}
+        className={`select-trigger btn btn-quiet glass-btn h-10 min-w-[200px] rounded-full px-4 t-data font-bold outline-none flex items-center justify-between gap-3 ${buttonClassName}`}
       >
         <span className="truncate">{summary}</span>
         <svg className={`h-4 w-4 shrink-0 text-neutral-dark/80 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="none">
