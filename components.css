@@ -493,6 +493,12 @@ button:disabled.btn-quiet,
   background: var(--color-ink-deep);
   color: var(--color-band-ink);
 }
+/* На тёмной колонке нажатая тихая кнопка инвертируется: тёмная заливка там
+   невидима (26.08.2026, «Смотреть как»). */
+.chrome-rail .btn-quiet[aria-pressed='true'] {
+  background: rgb(var(--paper-rgb) / 0.94);
+  color: var(--color-ink-deep, var(--color-neutral-dark));
+}
 
 /**
  * Второстепенная кнопка обязана быть ВИДНА без наведения.
@@ -815,83 +821,6 @@ button:disabled.btn-quiet,
 .select-trigger:focus-visible {
   outline: 2px solid rgb(var(--brand-rgb, var(--ink-rgb)) / 0.3);
   outline-offset: 1px;
-}
-
-/**
- * СЕГМЕНТ — выбор взгляда на данные, а не действие (26.08.2026).
- *
- * Фильтры «Все / Добавлено / Исправлено», период оплаты, «Смотреть как»,
- * фишки рекламных карточек — всё это одевалось кнопками: выбранный btn-primary,
- * остальные btn-quiet. Владелица справедливо сказала: «выглядят как кнопки, но
- * это не кнопки». Кнопка обещает действие; сегмент лишь меняет, на что
- * смотришь.
- *
- * Группа — ОДИН элемент: общая пилюля-подложка, внутри плоские фишки,
- * выбранная — тёмная. Состояние объявляется aria-pressed. Подложка одна на
- * группу, поэтому глаз не может прочесть фишки как отдельные кнопки.
- */
-.seg {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgb(var(--ink-rgb) / 0.06);
-  max-width: 100%;
-  overflow-x: auto;
-}
-.seg-item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 30px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: transparent;
-  font-size: 11px;
-  line-height: 1.3;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  cursor: pointer;
-  color: color-mix(in srgb, var(--color-neutral-dark) 72%, transparent);
-  transition: background-color 0.16s ease, color 0.16s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .seg-item:hover { color: var(--color-neutral-dark); background: rgb(var(--ink-rgb) / 0.05); }
-}
-.seg-item[aria-pressed='true'],
-.seg-item[aria-selected='true'] {
-  background: var(--color-rail);
-  color: var(--color-band-ink);
-}
-.seg-item:focus-visible {
-  outline: 2px solid rgb(var(--brand-rgb, var(--ink-rgb)) / 0.3);
-  outline-offset: 1px;
-}
-
-/**
- * Сегмент на ТЁМНОЙ колонке («Смотреть как»). Цвета выше рассчитаны на бумагу:
- * тёмный текст невыбранной фишки на тёмной колонке нечитаем (замечено
- * 26.08.2026 на живом PR-хабе). Здесь то же правило, инвертированное: подложка
- * чуть светлее колонки, невыбранное — приглушённая бумага, выбранное — бумага
- * с чернильным текстом.
- */
-.chrome-rail .seg { background: rgb(var(--paper-rgb) / 0.10); }
-.chrome-rail .seg-item { color: rgb(var(--paper-rgb) / 0.72); }
-@media (hover: hover) and (pointer: fine) {
-  .chrome-rail .seg-item:hover {
-    color: rgb(var(--paper-rgb) / 1);
-    background: rgb(var(--paper-rgb) / 0.10);
-  }
-}
-.chrome-rail .seg-item[aria-pressed='true'],
-.chrome-rail .seg-item[aria-selected='true'] {
-  background: rgb(var(--paper-rgb) / 0.94);
-  color: var(--color-ink-deep, var(--color-neutral-dark));
 }
 
 /* Segmented-control chips (tabs, language switcher): idle stays flat so
