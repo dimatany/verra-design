@@ -198,7 +198,7 @@ export default function LiquidSelect({
                   className={`pop-item justify-between ${
                     active
                       ? 'is-on shadow-pick'
-                      : `${focused ? 'ring-2 ring-primary/35' : ''}`
+                      : `${focused ? 'is-hot' : ''}`
                   }`}
                 >
                   <span className="min-w-0">

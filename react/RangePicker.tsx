@@ -124,7 +124,7 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
         type="button"
         onClick={() => { setIsOpen(!isOpen); setError(''); }}
         aria-expanded={isOpen}
-        className="select-trigger glass-btn !min-w-0 sm:!min-w-[170px] max-w-[46vw] sm:max-w-none focus:outline-none focus:ring-2 focus:ring-primary/20 backdrop-blur-xl"
+        className="select-trigger glass-btn !min-w-0 sm:!min-w-[170px] max-w-[46vw] sm:max-w-none backdrop-blur-xl"
       >
         <span className="truncate">{activeLabel}</span>
         <svg
