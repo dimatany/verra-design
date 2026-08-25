@@ -195,7 +195,7 @@ export default function LiquidSelect({
                     setOpen(false);
                     buttonRef.current?.focus();
                   }}
-                  className={`flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-left transition-[background-color,color,box-shadow] duration-150 ${
+                  className={`pop-item justify-between ${
                     active
                       ? 'is-on shadow-pick'
                       : `${focused ? 'ring-2 ring-primary/35' : ''}`

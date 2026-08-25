@@ -1148,6 +1148,12 @@ table.table-pinned { min-width: max-content; }
   padding: 10px;
   box-shadow: 0 24px 64px rgb(var(--ink-rgb) / 0.20);
   z-index: 210;
+  /* Панель почти глухая (26.08.2026): полупрозрачное стекло красиво над
+     светлой страницей, но над тёмной колонкой сквозь него читался текст
+     меню — список выглядел сломанным. Один вид панели на все случаи. */
+  background: rgb(var(--paper-rgb) / 0.97);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
 }
 
 .pop-item {
