@@ -22,11 +22,60 @@ export default function Modal({ onClose, ariaLabel, panelClassName = 'w-full max
   panelClassName?: string;
   children: React.ReactNode;
 }>) {
+  const panelRef = React.useRef<HTMLDivElement | null>(null);
+
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
+
+  /**
+   * ФОКУС ЖИВЁТ ВНУТРИ ОКНА (25.08.2026).
+   *
+   * Раньше окно только закрывалось по Escape: клавиатура и экранный диктор
+   * спокойно уходили за него — человек «тыкал» вслепую в интерфейс, который
+   * не видит, а вернувшись, оказывался в начале страницы. Теперь фокус входит
+   * в панель, ходит по кругу внутри неё (Tab и Shift+Tab) и возвращается туда,
+   * откуда окно открыли.
+   */
+  React.useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    const panel = panelRef.current;
+    const focusable = () => {
+      if (!panel) return [] as HTMLElement[];
+      return [...panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )].filter((el) => el.offsetParent !== null || el === document.activeElement);
+    };
+
+    // Первый фокус — на первом органе управления окна, иначе на самой панели.
+    const first = focusable()[0];
+    (first ?? panel)?.focus?.();
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const items = focusable();
+      if (items.length === 0) {
+        event.preventDefault();
+        panel?.focus();
+        return;
+      }
+      const current = document.activeElement as HTMLElement | null;
+      const index = current ? items.indexOf(current) : -1;
+      const next = event.shiftKey ? index - 1 : index + 1;
+      if (index === -1 || next < 0 || next >= items.length) {
+        event.preventDefault();
+        items[event.shiftKey ? items.length - 1 : 0].focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKey, true);
+    return () => {
+      document.removeEventListener('keydown', onKey, true);
+      opener?.focus?.();
+    };
+  }, []);
 
   /**
    * Пока окно открыто, страница за ним не прокручивается.
@@ -62,8 +111,10 @@ export default function Modal({ onClose, ariaLabel, panelClassName = 'w-full max
       aria-modal="true"
       aria-label={ariaLabel}
     >
-      <button type="button" aria-label="✕" className="modal-scrim" onClick={onClose} />
-      <div className={`modal-panel ${panelClassName}`}>{children}</div>
+      {/* Пелена не должна быть остановкой для клавиатуры: закрытие есть по
+          Escape и по кнопке внутри окна. */}
+      <button type="button" tabIndex={-1} aria-hidden="true" className="modal-scrim" onClick={onClose} />
+      <div ref={panelRef} tabIndex={-1} className={`modal-panel outline-none ${panelClassName}`}>{children}</div>
     </div>,
     document.body,
   );

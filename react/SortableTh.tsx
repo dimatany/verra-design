@@ -103,7 +103,13 @@ export function SortableTh({
   const t = useT();
   const sortTitle = t('Сортувати', 'Сортировать', 'Sort');
   return (
-    <th className={`py-2.5 ${first ? 'pr-3' : 'px-2'} t-cap font-bold uppercase tracking-wider ${active ? 'text-neutral-dark' : 'text-neutral-dark/70'} ${align === 'right' ? 'text-right' : ''}`}>
+    {/* aria-sort: экранный диктор обязан назвать, по какой колонке и в какую
+        сторону отсортирована таблица — глазами это видно по стрелке, на слух
+        не было слышно вовсе (25.08.2026). */}
+    <th
+      aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}
+      className={`py-2.5 ${first ? 'pr-3' : 'px-2'} t-cap font-bold uppercase tracking-wider ${active ? 'text-neutral-dark' : 'text-neutral-dark/70'} ${align === 'right' ? 'text-right' : ''}`}
+    >
       {/* «Спокойная шапка»: подпись+стрелка — одна кнопка сортировки; ⓘ отделён
           тонким разделителем и увеличенным отступом, чтобы в него не попадали
           мимо сортировки. hint — отдельный <button>, поэтому живёт РЯДОМ с

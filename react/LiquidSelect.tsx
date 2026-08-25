@@ -31,6 +31,15 @@ export default function LiquidSelect({
 }: Readonly<LiquidSelectProps>) {
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  /**
+   * ДОСТУПНОСТЬ (25.08.2026). Список был набором кнопок в <div>: клавиатура его
+   * не понимала — ни стрелок, ни Escape, ни возврата фокуса, а экранный диктор
+   * не знал, что список раскрыт. Правим здесь, в общем компоненте: этот селект
+   * стоит на выборе кабинета, периода и языка во всех приложениях.
+   */
+  const [activeIndex, setActiveIndex] = React.useState(-1);
+  const listRef = React.useRef<HTMLDivElement | null>(null);
+  const menuId = React.useId();
   const [menuPosition, setMenuPosition] = React.useState<{
     top?: number;
     bottom?: number;
@@ -50,6 +59,12 @@ export default function LiquidSelect({
     // eslint-disable-next-line react-hooks/set-state-in-effect -- portal target exists only in the browser; flip after mount so SSR and first client render match
     setMounted(true);
   }, []);
+
+  // Список открылся — фокус уходит в него: иначе стрелки слушает кнопка, а не
+  // сам список, и подсветка пункта не двигается.
+  React.useEffect(() => {
+    if (open) listRef.current?.focus();
+  }, [open]);
 
   const updateMenuPosition = React.useCallback(() => {
     if (!buttonRef.current) return;
@@ -109,6 +124,40 @@ export default function LiquidSelect({
     ? createPortal(
         <div
           id="liquid-select-portal-menu"
+          ref={listRef}
+          role="listbox"
+          aria-activedescendant={activeIndex >= 0 ? `${menuId}-option-${activeIndex}` : undefined}
+          tabIndex={-1}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              setOpen(false);
+              buttonRef.current?.focus();
+              return;
+            }
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Home' || event.key === 'End') {
+              event.preventDefault();
+              setActiveIndex((current) => {
+                if (event.key === 'Home') return 0;
+                if (event.key === 'End') return options.length - 1;
+                const step = event.key === 'ArrowDown' ? 1 : -1;
+                const next = current + step;
+                if (next < 0) return options.length - 1;
+                if (next >= options.length) return 0;
+                return next;
+              });
+              return;
+            }
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              const option = options[activeIndex];
+              if (option) {
+                onChange(option.value);
+                setOpen(false);
+                buttonRef.current?.focus();
+              }
+            }
+          }}
           style={{
             position: 'fixed',
             top: menuPosition.top,
@@ -129,21 +178,27 @@ export default function LiquidSelect({
           className={`flex flex-col rounded-[22px] border chrome-glass p-2 shadow-[0_28px_80px_rgb(var(--ink-rgb)/0.22)] ${menuClassName}`}
         >
           <div className="flex flex-col gap-1 overflow-y-auto overscroll-contain">
-            {options.map((option) => {
+            {options.map((option, index) => {
               const active = option.value === value;
+              const focused = index === activeIndex;
 
               return (
                 <button
                   key={option.value}
+                  id={`${menuId}-option-${index}`}
+                  role="option"
+                  aria-selected={active}
                   type="button"
+                  onMouseEnter={() => setActiveIndex(index)}
                   onClick={() => {
                     onChange(option.value);
                     setOpen(false);
+                    buttonRef.current?.focus();
                   }}
-                  className={`flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-left transition-all ${
+                  className={`flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-left transition-[background-color,color,box-shadow] duration-150 ${
                     active
                       ? 'btn-primary shadow-pick'
-                      : 'btn-quiet bg-transparent text-neutral-dark/78'
+                      : `btn-quiet bg-transparent text-neutral-dark/78 ${focused ? 'ring-2 ring-primary/35' : ''}`
                   }`}
                 >
                   <span className="min-w-0">
@@ -187,9 +242,27 @@ export default function LiquidSelect({
       <button
         ref={buttonRef}
         type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            updateMenuPosition();
+            setOpen(true);
+            // Стрелка вверх открывает список на последнем пункте — так ждёт
+            // привычка из системных списков.
+            const start = event.key === 'ArrowUp' ? options.length - 1 : Math.max(0, options.findIndex((o) => o.value === value));
+            setActiveIndex(start);
+          }
+        }}
         onClick={() => {
           updateMenuPosition();
-          setOpen((current) => !current);
+          setOpen((current) => {
+            if (current) return false;
+            setActiveIndex(Math.max(0, options.findIndex((o) => o.value === value)));
+            return true;
+          });
         }}
         style={{ width: contentWidth, maxWidth: '100%' }}
         className={`select-trigger btn-quiet glass-btn h-10 min-w-[150px] rounded-full border border-white/80 bg-white/94 px-4 t-data font-bold text-neutral-dark backdrop-blur-xl outline-none hover:bg-white focus:ring-2 focus:ring-primary/20 flex items-center justify-between gap-3 ${buttonClassName}`}

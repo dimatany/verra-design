@@ -28,6 +28,8 @@ export default function MultiSelect({
 }>) {
   const t = useT();
   const [open, setOpen] = React.useState(false);
+  /** Доступность (25.08.2026): список должен закрываться Escape и объявляться. */
+  const menuId = React.useId();
   const [mounted, setMounted] = React.useState(false);
   const [pos, setPos] = React.useState({ top: 0, left: 0, width: 0 });
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
@@ -104,6 +106,15 @@ export default function MultiSelect({
     <div ref={rootRef} className={`relative min-w-0 max-w-full ${className}`}>
       {probe}
       <button
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape' && open) {
+            event.preventDefault();
+            setOpen(false);
+          }
+        }}
         ref={btnRef}
         type="button"
         onClick={() => { place(); setOpen((o) => !o); }}
@@ -119,6 +130,16 @@ export default function MultiSelect({
       {open && mounted &&
         createPortal(
           <div
+            id={menuId}
+            role="listbox"
+            aria-multiselectable="true"
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                event.preventDefault();
+                setOpen(false);
+                btnRef.current?.focus();
+              }
+            }}
             id="multi-select-portal"
             style={{ position: 'fixed', top: pos.top, left: clampMenuLeft(pos.left, contentWidth ?? pos.width), width: contentWidth ?? pos.width, zIndex: 2147483647 }}
             className="overflow-hidden rounded-[22px] border chrome-glass p-2 shadow-[0_28px_80px_rgb(var(--ink-rgb)/0.22)]"
