@@ -870,6 +870,27 @@ button:disabled.btn-quiet,
   outline-offset: 1px;
 }
 
+/**
+ * Сегмент на ТЁМНОЙ колонке («Смотреть как»). Цвета выше рассчитаны на бумагу:
+ * тёмный текст невыбранной фишки на тёмной колонке нечитаем (замечено
+ * 26.08.2026 на живом PR-хабе). Здесь то же правило, инвертированное: подложка
+ * чуть светлее колонки, невыбранное — приглушённая бумага, выбранное — бумага
+ * с чернильным текстом.
+ */
+.chrome-rail .seg { background: rgb(var(--paper-rgb) / 0.10); }
+.chrome-rail .seg-item { color: rgb(var(--paper-rgb) / 0.72); }
+@media (hover: hover) and (pointer: fine) {
+  .chrome-rail .seg-item:hover {
+    color: rgb(var(--paper-rgb) / 1);
+    background: rgb(var(--paper-rgb) / 0.10);
+  }
+}
+.chrome-rail .seg-item[aria-pressed='true'],
+.chrome-rail .seg-item[aria-selected='true'] {
+  background: rgb(var(--paper-rgb) / 0.94);
+  color: var(--color-ink-deep, var(--color-neutral-dark));
+}
+
 /* Segmented-control chips (tabs, language switcher): idle stays flat so
    the group reads as one control; press physics and sheen still apply */
 .glass-btn-flat {
