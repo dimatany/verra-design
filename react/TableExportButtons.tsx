@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Icon from './Icon';
+import Button from './Button';
 import { useT } from './i18n';
 
 /**
@@ -35,16 +36,18 @@ export default function TableExportButtons<T>({ build, exporters }: Readonly<{
       setBusy('');
     }
   };
-    // Кнопки выгрузки — обычные второстепенные кнопки системы, а не свой вид.
-  const cls = 'glass-btn btn-quiet inline-flex items-center gap-1 min-h-[36px] px-3 py-2 rounded-lg t-cap font-bold uppercase tracking-wider cursor-pointer disabled:opacity-50';
+  // Скачивание — ЧЁРНАЯ кнопка, везде и всегда (решение владелицы 25.08.2026).
+  // До этого Word и PDF были то тёмные в помощнике, то белые в таблицах, и
+  // человек читал одинаковое действие как два разных. Семья задана здесь один
+  // раз, страж `guards/download.test.mjs` не даёт развести её обратно.
   return (
     <span className="inline-flex items-center gap-1.5 shrink-0" title={hint}>
-      <button type="button" className={cls} disabled={busy !== ''} onClick={() => run('word')}>
+      <Button variant="primary" size="sm" disabled={busy !== ''} onClick={() => run('word')}>
         <Icon name="download" className="w-3.5 h-3.5" /> {busy === 'word' ? '…' : 'Word'}
-      </button>
-      <button type="button" className={cls} disabled={busy !== ''} onClick={() => run('pdf')}>
+      </Button>
+      <Button variant="primary" size="sm" disabled={busy !== ''} onClick={() => run('pdf')}>
         <Icon name="download" className="w-3.5 h-3.5" /> {busy === 'pdf' ? '…' : 'PDF'}
-      </button>
+      </Button>
     </span>
   );
 }
