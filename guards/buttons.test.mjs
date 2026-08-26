@@ -69,3 +69,33 @@ test('кнопка не назначает себе выключенное со�
   assert.deepEqual(offenders, [],
     'Выключенный вид задаётся в дизайн-системе, а не у кнопки. Уберите disabled:opacity-*:\n' + offenders.join('\n'));
 });
+
+/**
+ * …И НЕ В CSS ПРОДУКТА. 26.08.2026 у PR-хаба нашлась продуктовая копия:
+ * `.btn-primary:disabled { opacity: .5 }` поверх пакета — тёмная выключенная
+ * кнопка снова высветлялась в серую чужую. Правило одно: выключенный вид
+ * описывает ТОЛЬКО пакет. Смотрим все .css продукта (кроме node_modules).
+ */
+test('css продукта не переопределяет выключенный вид кнопок', () => {
+  const offenders = [];
+  const walk = (dir) => {
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const entry of entries) {
+      const full = `${dir}/${entry.name}`;
+      if (entry.name === 'node_modules') continue;
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith('.css')) {
+        const css = fs.readFileSync(full, 'utf8');
+        const re = /(?:btn|glass-btn)[^{}]*:disabled[^{}]*\{[^}]*(opacity|background|filter)[^}]*\}/g;
+        let m;
+        while ((m = re.exec(css)) !== null) {
+          offenders.push(`${full}:${lineOf(css, m.index)} — ${m[1]}`);
+        }
+      }
+    }
+  };
+  walk('src');
+  assert.deepEqual(offenders, [],
+    'выключенный вид кнопки описывает только пакет дизайна:\n' + offenders.join('\n'));
+});
