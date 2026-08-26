@@ -157,22 +157,27 @@ a[aria-disabled='true'] {
  */
 button:disabled.btn-primary,
 .btn-primary[aria-disabled='true'] {
-  /* 26.08.2026: приглушение до 38% читалось отдельной СЕРОЙ кнопкой рядом с
-     чёрными. Выключенная остаётся явно тёмной — та же кнопка, просто пока
-     нечего нажимать. */
-  background: color-mix(in srgb, var(--color-rail) 68%, var(--color-paper));
-  color: color-mix(in srgb, var(--color-band-ink) 60%, transparent);
+  /* РЕШЕНИЕ ВЛАДЕЛИЦЫ 26.08.2026 (третий заход по этой кнопке): НИКАКОЙ
+     серости. Выключенная кнопка — ПОЛНОСТЬЮ чёрная, как рабочая; о
+     недоступности говорит только курсор и отсутствие отклика. Формы при этом
+     не гасят кнопку ради валидации — по нажатию объясняют, чего не хватает. */
+  background: var(--color-rail);
+  color: var(--color-band-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  button:disabled.btn-primary:hover,
+  .btn-primary[aria-disabled='true']:hover { background: var(--color-rail); }
 }
 button:disabled.btn-danger,
 .btn-danger[aria-disabled='true'] {
-  background: color-mix(in srgb, var(--color-bad) 58%, var(--color-paper));
-  color: color-mix(in srgb, var(--color-paper) 80%, transparent);
+  background: var(--color-bad);
+  color: var(--color-paper);
 }
 button:disabled.btn-quiet,
 .btn-quiet[aria-disabled='true'] {
-  background: color-mix(in srgb, var(--color-paper) 70%, transparent);
-  color: color-mix(in srgb, var(--color-neutral-dark) 45%, transparent);
-  border-color: color-mix(in srgb, var(--color-neutral-dark) 14%, transparent);
+  background: rgb(var(--paper-rgb) / 0.94);
+  color: var(--color-neutral-dark);
+  border-color: rgb(var(--paper-rgb) / 0.8);
 }
 .glass-btn:disabled::after,
 .glass-btn[aria-disabled='true']::after { opacity: 0; }
