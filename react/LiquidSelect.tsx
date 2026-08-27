@@ -8,6 +8,12 @@ export type LiquidSelectOption = {
   value: string;
   label: string;
   description?: string;
+  /**
+   * Цветная метка-точка перед подписью (CSS-цвет, обычно токен var(--…)).
+   * Для смысловой окраски опции — напр. «наш» зелёным, «чужой» янтарным — без
+   * лишних слов в подписи. Необязательна: без неё опция как раньше.
+   */
+  dot?: string;
 };
 
 type LiquidSelectProps = {
@@ -201,7 +207,9 @@ export default function LiquidSelect({
                       : `${focused ? 'is-hot' : ''}`
                   }`}
                 >
-                  <span className="min-w-0">
+                  <span className="min-w-0 flex items-center gap-2">
+                    {option.dot && <span aria-hidden="true" className="shrink-0 rounded-full" style={{ width: 9, height: 9, background: option.dot }} />}
+                    <span className="min-w-0">
                     <span className="block whitespace-nowrap t-body font-bold leading-tight">
                       {option.label}
                     </span>
@@ -214,6 +222,7 @@ export default function LiquidSelect({
                         {option.description}
                       </span>
                     )}
+                    </span>
                   </span>
 
                   {active && (
@@ -267,7 +276,10 @@ export default function LiquidSelect({
         style={{ width: contentWidth, maxWidth: '100%' }}
         className={`select-trigger glass-btn min-w-[150px] outline-none ${buttonClassName}`}
       >
-        <span className="truncate">{selected?.label || placeholder}</span>
+        <span className="truncate flex items-center gap-2">
+          {selected?.dot && <span aria-hidden="true" className="shrink-0 rounded-full" style={{ width: 9, height: 9, background: selected.dot }} />}
+          {selected?.label || placeholder}
+        </span>
         <svg
           className={`h-4 w-4 shrink-0 text-neutral-dark/80 transition-transform duration-200 ${
             open ? 'rotate-180' : ''
