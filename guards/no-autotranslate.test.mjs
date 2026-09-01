@@ -43,9 +43,16 @@ test('автоперевод браузера отключён в корнево
   const offenders = [];
   for (const file of layouts) {
     const code = fs.readFileSync(file, 'utf8');
+
+    // Смотрим САМ ТЕГ, а не весь файл: первая версия стража искала по всему
+    // тексту и находила защиту в собственном комментарии рядом — тег при этом
+    // мог быть пустым, и страж молчал (поймано проверкой 01.09.2026).
+    const open = code.indexOf('<html');
+    const tag = open === -1 ? '' : code.slice(open, code.indexOf('>', open) + 1);
+
     const missing = [];
-    if (!/translate="no"/.test(code)) missing.push('translate="no" у <html>');
-    if (!/notranslate/.test(code)) missing.push('класс notranslate');
+    if (!/\btranslate="no"/.test(tag)) missing.push('translate="no" у <html>');
+    if (!/className="[^"]*\bnotranslate\b/.test(tag)) missing.push('класс notranslate у <html>');
     if (!/google:\s*['"]notranslate['"]/.test(code)) missing.push("метаданные google: 'notranslate'");
     if (missing.length) offenders.push(`${file}: не хватает ${missing.join(', ')}`);
   }
