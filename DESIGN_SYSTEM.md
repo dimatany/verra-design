@@ -372,6 +372,14 @@ MultiSelect — не копия), `HoverTip`, `InfoHint`, `LoadError`, `Sortable
 Исключение одно и осознанное: подписи осей внутри графиков Nivo (задаются
 темой библиотеки).
 
+**Проверяется стражем `guards/typography.test.mjs`** (03.09.2026): владелица
+снова увидела на одной странице крупный и мелкий текст рядом — новые карточки
+были набраны `text-sm`, а таблицы без ступени наследовали браузерные 16px.
+Страж роняет сборку за любой размер Tailwind или произвольное значение и за
+таблицу, у которой ступень не задана ни на `<table>`, ни на каждой ячейке
+(шапки из `SortableTh` ступень несут сами). Правило для таблиц: `t-data` на
+`<table>`, `t-cap` на шапках.
+
 **Поля ввода звучат ступенью `.t-data` (13px)** — так же, как подпись рядом с
 полем, а не громче её. Задаёт это `.field` в пакете, и переопределять размер
 на месте нельзя (страж полей). Про iOS: Safari увеличивает страницу при фокусе
@@ -484,14 +492,14 @@ import { COLOR, FUNNEL_AD_COLORS } from '../../lib/design/colors';
 
 | Уровень | Роль | Стиль |
 |---|---|---|
-| h1 | Заголовок страницы | `font-display text-3xl font-bold` |
+| h1 | Заголовок страницы | `font-display t-h1 font-bold` |
 | h2 | Заголовок блока (BentoCard) | `.heading-block` (20px) + `.heading-block-accent` (терракотовая планка-подчёркивание) |
 | h3 | Группа KPI | `GroupHeader` (12px uppercase, акцентная планка + линия) |
 | h4 | Группа в таблице | цветная полоса `.band-paid`/`.band-free` (белый текст на терракоте/тёмном шалфее) + чип количества |
-| h5 | Лейбл плитки | `text-[10px] font-bold uppercase text-neutral-dark/75` |
-| h6 | Подписи/легенды | `text-[10px] font-semibold text-neutral-dark/70` |
+| h5 | Лейбл плитки | `t-cap font-bold uppercase text-neutral-dark/75` |
+| h6 | Подписи/легенды | `t-cap font-semibold text-neutral-dark/70` |
 
-- Значение KPI: `font-display text-[26px] font-bold` + `tabular-nums`
+- Значение KPI: `font-display t-kpi font-bold` + `tabular-nums`
 - Итоговые полосы таблиц: `.subtotal-paid`/`.subtotal-free` (тонировка группы + цветная верхняя граница); финальная строка-вывод — `.band-ink` (чернильная, светофор `.metric-*-inverse`)
 - Строки внутри групп: лёгкая тонировка `.row-tint-paid`/`.row-tint-free`
 - Иконки — только SVG (Heroicons-стиль), никаких эмодзи.
