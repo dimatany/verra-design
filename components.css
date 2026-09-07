@@ -234,6 +234,10 @@ button:disabled.btn-quiet,
   border: 1px solid rgb(var(--ink-rgb) / 0.14);
   border-radius: 10px;
   padding: 8px 12px;
+  /* Палец: поле — такая же цель нажатия, как кнопка (08.09.2026). Было 38 px,
+     и на телефоне промах ставил курсор в соседнюю строку таблицы бюджета.
+     min-height, а не увеличенный padding: многострочные поля не раздуваются. */
+  min-height: 44px;
   color: var(--color-neutral-dark);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
@@ -1359,4 +1363,31 @@ input[type='datetime-local'] {
   }
   /* Плавность одна на оба продукта: колонка и содержимое едут вместе. */
   .rail-shell, .rail-offset { transition: width 0.3s ease, margin-left 0.3s ease; }
+}
+
+
+/**
+ * КНОПКА-ЗНАЧОК: цель нажатия 44 px, значок прежний (08.09.2026).
+ *
+ * Крестики «убрать строку» были 13–16 px. Значок такого размера правильный —
+ * он не должен спорить с цифрами; неправильной была зона нажатия. Класс
+ * растит зону и возвращает прежний след отрицательными полями, чтобы соседние
+ * элементы не разъехались. Собственные `w-4 h-4` у кнопок по месту больше не
+ * нужны: разница в размере зоны — это не вкус автора экрана.
+ */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -14px;
+  border-radius: 10px;
+  flex: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.icon-btn:hover { background: rgb(var(--ink-rgb) / 0.06); }
+.icon-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--accent-rgb) / 0.6);
 }

@@ -17,10 +17,16 @@ export default function InfoHint({ text }: Readonly<{ text?: string }>) {
   return (
     <HoverTip
       text={text}
-      // Зона нажатия расширена псевдоэлементом до ~41 px (палец), но рамка
-      // фокуса рисовалась по самой иконке в 13 px — с клавиатуры её было почти
-      // не видно. Кольцо рисуем со смещением наружу, по реальной зоне.
-      className="relative inline-flex rounded-full text-neutral-dark/40 hover:text-primary focus:text-primary transition-colors after:absolute after:-inset-[14px] after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-[6px] focus-visible:ring-offset-transparent"
+      // ЗОНА НАЖАТИЯ — САМА КНОПКА, 44 px (08.09.2026).
+      //
+      // Раньше зону расширял псевдоэлемент `after:-inset-14`. Замер попаданием
+      // на живой странице показал: в плотной шапке таблицы соседи перекрывают
+      // его, и пальцем остаётся ровно 13 px значка — ноль попаданий из четырёх
+      // проб. Теперь кнопка честно 44×44, а отрицательные поля возвращают ей
+      // прежний след в потоке, чтобы вёрстка вокруг не сдвинулась.
+      //
+      // Кольцо фокуса рисуем по самой кнопке: теперь это и есть реальная зона.
+      className="relative inline-flex items-center justify-center w-11 h-11 -m-[15.5px] rounded-full text-neutral-dark/40 hover:text-primary focus:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
     >
       {/* Heroicons-outline house style: тонкая обводка (как в сайдбаре),
           скруглённые концы. Чуть плотнее 1.5 — читаемо на 13px. */}
