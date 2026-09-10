@@ -26,10 +26,26 @@ export function useDropdownWidth(options: ReadonlyArray<{ label: string }>) {
   useIsoLayoutEffect(() => {
     const el = measureRef.current;
     if (!el) return;
-    // +1px guards against sub-pixel rounding that would clip the last glyph.
-    const natural = Math.ceil(el.getBoundingClientRect().width) + 1;
-    const cap = typeof window !== 'undefined' ? window.innerWidth - 32 : natural;
-    setWidth(Math.min(natural, cap));
+    const measure = () => {
+      // +1px guards against sub-pixel rounding that would clip the last glyph.
+      const natural = Math.ceil(el.getBoundingClientRect().width) + 1;
+      const cap = typeof window !== 'undefined' ? window.innerWidth - 32 : natural;
+      setWidth(Math.min(natural, cap));
+    };
+    measure();
+    /**
+     * ПОВТОРНЫЙ ЗАМЕР ПОСЛЕ ЗАГРУЗКИ ШРИФТА.
+     *
+     * Первый замер попадает на подменный шрифт, а он уже́ шрифта продукта: ширина
+     * выходит меньше настоящей, и подписи в списке обрезаются, хотя измерялись
+     * «по самой длинной». Видно было прямо на живом кабинете: «Google Ads —
+     * Ad…» в списке из трёх кабинетов (11.09.2026).
+     */
+    const fonts = typeof document !== 'undefined' ? (document as Document & { fonts?: FontFaceSet }).fonts : undefined;
+    if (!fonts?.ready) return;
+    let alive = true;
+    fonts.ready.then(() => { if (alive) measure(); }).catch(() => { /* замер и так сделан */ });
+    return () => { alive = false; };
   }, [options]);
 
   const probe = (

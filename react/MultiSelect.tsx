@@ -167,7 +167,12 @@ export default function MultiSelect({
                   >
                     {check(on)}
                     <span className="min-w-0">
-                      <span className="block truncate t-body font-bold leading-tight">{o.label}</span>
+                      {/* Подпись ПЕРЕНОСИТСЯ, а не обрезается. Обрезка прятала
+                          именно то, чем кабинеты отличаются друг от друга:
+                          «Google Ads — Ad…» и «Google Ads — EM…» — одна и та же
+                          строка для человека. Всплывающая подсказка не спасала:
+                          на телефоне её нет вовсе (замечание владелицы 11.09.2026). */}
+                      <span className="block t-body font-bold leading-tight break-words">{o.label}</span>
                       {o.description && <span className="mt-0.5 block truncate t-cap font-semibold text-neutral-dark/60">{o.description}</span>}
                     </span>
                   </button>
