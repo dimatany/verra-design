@@ -1416,3 +1416,55 @@ input[type='datetime-local'] {
   outline: none;
   box-shadow: 0 0 0 2px rgb(var(--accent-rgb) / 0.6);
 }
+
+/**
+ * ЧИСЛО НОСИТ ФОРМУ (v0.12.0, аудит таблиц Metriverra 11.09.2026).
+ *
+ * Пять элементов, которые заменяют таблицу графиком или дают числу в клетке
+ * форму: столбик в ячейке, дельта-чип (это .pill), полоса распределения,
+ * карточка-строка для телефона, пустое состояние. Цвет — только из токенов.
+ */
+
+/* ---------- Столбик в ячейке ---------- */
+.bar-cell { display: inline-flex; align-items: center; gap: 8px; min-width: 0; width: 100%; }
+.bar-cell-right { flex-direction: row-reverse; }
+.bar-cell-label { flex: none; }
+.bar-cell-track { flex: 1 1 auto; min-width: 24px; height: 6px; border-radius: 3px; background: rgb(var(--ink-rgb) / 0.08); overflow: hidden; }
+.bar-cell-fill { display: block; height: 100%; border-radius: 3px; }
+.bar-cell-accent { background: rgb(var(--accent-rgb)); }
+.bar-cell-good { background: rgb(var(--tertiary-rgb)); }
+.bar-cell-warn { background: rgb(var(--sand-rgb)); }
+.bar-cell-bad { background: rgb(var(--bad-rgb)); }
+.bar-cell-quiet { background: rgb(var(--ink-rgb) / 0.3); }
+
+/* ---------- Полоса распределения ---------- */
+.dist { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dist-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: rgb(var(--ink-rgb) / 0.06); }
+.dist-seg { display: block; height: 100%; }
+.dist-band { background: rgb(var(--accent-band-rgb)); }
+.dist-accent { background: rgb(var(--accent-rgb)); }
+.dist-tertiary { background: rgb(var(--tertiary-band-rgb)); }
+.dist-sand { background: rgb(var(--sand-rgb)); }
+.dist-quiet { background: rgb(var(--ink-rgb) / 0.18); }
+.dist-bad { background: rgb(var(--bad-rgb)); }
+.dist-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; line-height: 1.4; color: rgb(var(--ink-rgb) / 0.75); }
+.dist-legend li { display: inline-flex; align-items: center; gap: 5px; }
+.dist-legend-label { color: rgb(var(--ink-rgb) / 0.6); }
+.dist-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+/* ---------- Карточка-строка (телефон) ---------- */
+.row-cards { display: flex; flex-direction: column; gap: 8px; }
+.row-card { border: 1px solid rgb(var(--ink-rgb) / 0.14); border-radius: 12px; padding: 10px 12px; background: rgb(var(--paper-rgb) / 0.7); }
+.row-card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-bottom: 6px; }
+.row-card-title { font-size: 13px; font-weight: 700; line-height: 1.4; min-width: 0; overflow-wrap: anywhere; }
+.row-card-meta { font-size: 11px; color: rgb(var(--ink-rgb) / 0.6); }
+.row-card-fields { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; margin: 0; font-size: 12px; line-height: 1.4; }
+.row-card-fields dt { color: rgb(var(--ink-rgb) / 0.6); }
+.row-card-fields dd { margin: 0; text-align: right; font-weight: 600; }
+.row-card-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+
+/* ---------- Пустое состояние ---------- */
+.empty-state { border: 1.5px dashed rgb(var(--ink-rgb) / 0.22); border-radius: 12px; padding: 16px; text-align: center; display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.empty-state-title { font-size: 13px; font-weight: 700; margin: 0; }
+.empty-state-text { font-size: 12px; line-height: 1.5; color: rgb(var(--ink-rgb) / 0.65); margin: 0; max-width: 46ch; }
+.empty-state-action { margin-top: 6px; }
