@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useDismiss } from './useDismiss';
 import { useT } from './i18n';
 
 /**
@@ -67,16 +68,8 @@ export default function RangePicker({ value, onChange, language = 'uk', timeZone
     }
   }, [value]);
 
-  React.useEffect(() => {
-    const onDown = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-        setError('');
-      }
-    };
-    document.addEventListener('mousedown', onDown);
-    return () => document.removeEventListener('mousedown', onDown);
-  }, []);
+  // Клик мимо, Esc, уход фокуса — общее правило пакета (useDismiss).
+  useDismiss(isOpen, [() => containerRef.current], () => { setIsOpen(false); setError(''); });
 
   const labels = {
     '7d': t('Останні 7 днів', 'Последние 7 дней', 'Last 7 days'),

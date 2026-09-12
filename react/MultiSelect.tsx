@@ -3,6 +3,7 @@
 import React from 'react';
 import { useT } from './i18n';
 import { createPortal } from 'react-dom';
+import { useDismiss } from './useDismiss';
 import { useDropdownWidth, clampMenuLeft } from './dropdownWidth';
 
 export type MultiSelectOption = { value: string; label: string; description?: string };
@@ -52,23 +53,17 @@ export default function MultiSelect({
   React.useEffect(() => {
     if (!open) return;
     place();
-    const outside = (e: MouseEvent) => {
-      const t = e.target as Node;
-      if (rootRef.current?.contains(t)) return;
-      // Зацепка для «клик мимо» — отдельным признаком: `id` у меню уже занят
-      // связкой с кнопкой (aria-controls), а двух id у элемента не бывает.
-      if (document.querySelector('[data-multi-select-portal]')?.contains(t)) return;
-      setOpen(false);
-    };
-    document.addEventListener('mousedown', outside);
     window.addEventListener('scroll', place, true);
     window.addEventListener('resize', place);
     return () => {
-      document.removeEventListener('mousedown', outside);
       window.removeEventListener('scroll', place, true);
       window.removeEventListener('resize', place);
     };
   }, [open, place]);
+
+  // Клик мимо, Esc, уход фокуса — общее правило пакета (useDismiss). Зацепка
+  // для портала — отдельным признаком: `id` у меню уже занят связкой с кнопкой.
+  useDismiss(open, [() => rootRef.current, () => document.querySelector('[data-multi-select-portal]')], () => setOpen(false));
 
   // "All" is shown both when nothing is picked and when everything is picked —
   // both mean the same combined view, so the "all" row never fights the

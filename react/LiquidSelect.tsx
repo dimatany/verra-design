@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useDismiss } from './useDismiss';
 import { useDropdownWidth, clampMenuLeft } from './dropdownWidth';
 
 export type LiquidSelectOption = {
@@ -55,6 +56,10 @@ export default function LiquidSelect({
   }>({ top: 0, left: 0, width: 0, maxHeight: 420 });
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Клик мимо, Esc, уход фокуса — общее правило пакета (useDismiss).
+
+  useDismiss(open, [() => rootRef.current, () => document.getElementById('liquid-select-portal-menu')], () => setOpen(false));
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const selected = options.find((option) => option.value === value);
 
@@ -100,27 +105,14 @@ export default function LiquidSelect({
 
     updateMenuPosition();
 
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-
-      if (rootRef.current?.contains(target)) return;
-
-      const menu = document.getElementById('liquid-select-portal-menu');
-      if (menu?.contains(target)) return;
-
-      setOpen(false);
-    };
-
     const handleReposition = () => {
       updateMenuPosition();
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
     window.addEventListener('resize', handleReposition);
     window.addEventListener('scroll', handleReposition, true);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('resize', handleReposition);
       window.removeEventListener('scroll', handleReposition, true);
     };
