@@ -1468,3 +1468,47 @@ input[type='datetime-local'] {
 .empty-state-title { font-size: 13px; font-weight: 700; margin: 0; }
 .empty-state-text { font-size: 12px; line-height: 1.5; color: rgb(var(--ink-rgb) / 0.65); margin: 0; max-width: 46ch; }
 .empty-state-action { margin-top: 6px; }
+
+/**
+ * ФОРМА ЧИСЛА, ЧАСТЬ ВТОРАЯ (v0.13.0): позиция на шкале, парные полоски,
+ * спарклайн в клетке, тепло в ячейке матрицы.
+ */
+
+/* ---------- Позиция на шкале (1 — полная, 100 — пустая) ---------- */
+.rank-cell { display: inline-flex; align-items: center; gap: 8px; width: 100%; min-width: 0; }
+.rank-cell-label { flex: none; }
+.rank-cell-track { position: relative; flex: 1 1 auto; min-width: 24px; height: 6px; border-radius: 3px; background: rgb(var(--ink-rgb) / 0.08); overflow: hidden; }
+.rank-cell-before { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; background: rgb(var(--ink-rgb) / 0.18); }
+.rank-cell-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; }
+.rank-good { background: rgb(var(--tertiary-rgb)); }
+.rank-accent { background: rgb(var(--accent-rgb)); }
+.rank-quiet { background: rgb(var(--ink-rgb) / 0.35); }
+
+/* ---------- Парные полоски «мы против них» ---------- */
+.cmp { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.cmp-legend { display: flex; gap: 14px; font-size: 11px; color: rgb(var(--ink-rgb) / 0.65); }
+.cmp-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.cmp-dot { width: 10px; height: 8px; border-radius: 2px; display: inline-block; }
+.cmp-row { display: grid; grid-template-columns: minmax(90px, 160px) minmax(0, 1fr); gap: 10px; align-items: center; }
+.cmp-label { font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cmp-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cmp-line { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.cmp-line i { display: block; height: 8px; border-radius: 2px; flex: none; }
+.cmp-line b { font-size: 11px; font-weight: 600; color: rgb(var(--ink-rgb) / 0.75); white-space: nowrap; }
+.cmp-mine { background: rgb(var(--accent-rgb)); }
+.cmp-theirs { background: rgb(var(--ink-rgb) / 0.22); }
+.cmp-theirs.cmp-warn { background: rgb(var(--bad-rgb) / 0.55); }
+@media (max-width: 767px) { .cmp-row { grid-template-columns: 1fr; gap: 3px; } }
+
+/* ---------- Спарклайн в клетке ---------- */
+.spark-cell { display: inline-block; vertical-align: middle; flex: none; }
+.spark-cell rect { fill: rgb(var(--ink-rgb) / 0.28); }
+.spark-accent rect.spark-last { fill: rgb(var(--accent-rgb)); }
+.spark-good rect.spark-last { fill: rgb(var(--tertiary-rgb)); }
+.spark-quiet rect.spark-last { fill: rgb(var(--ink-rgb) / 0.6); }
+
+/* ---------- Тепло в ячейке матрицы (доля шага против нормы) ---------- */
+.heat-good { background: rgb(var(--tertiary-rgb) / 0.14); }
+.heat-warn { background: rgb(var(--sand-rgb) / 0.18); }
+.heat-bad { background: rgb(var(--bad-rgb) / 0.12); }
+.heat-quiet { background: rgb(var(--ink-rgb) / 0.04); }
