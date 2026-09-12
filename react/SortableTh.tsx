@@ -110,17 +110,20 @@ export function SortableTh({
       aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}
       className={`py-2.5 ${first ? 'pr-3' : 'px-2'} t-cap font-bold uppercase tracking-wider ${active ? 'text-neutral-dark' : 'text-neutral-dark/70'} ${align === 'right' ? 'text-right' : ''}`}
     >
-      {/* «Спокойная шапка»: подпись+стрелка — одна кнопка сортировки; ⓘ отделён
-          тонким разделителем и увеличенным отступом, чтобы в него не попадали
-          мимо сортировки. hint — отдельный <button>, поэтому живёт РЯДОМ с
-          кнопкой сортировки, а не внутри неё (вложенные кнопки — невалидный HTML). */}
+      {/* «Спокойная шапка»: подпись+стрелка — одна кнопка сортировки; ⓘ —
+          отдельный <button> РЯДОМ с ней, а не внутри (вложенные кнопки —
+          невалидный HTML). Разделительной чёрточки между ними больше нет:
+          у правых колонок она стояла у левого края заголовка и читалась как
+          граница колонки, а значок — как хвост соседней (владелица,
+          12.09.2026). Значок прижат к подписи малым отступом и читается с ней
+          одним блоком. */}
       {/* У правых колонок ⓘ стоит ПЕРЕД подписью. Причина не в красоте: на
           телефоне таблица едет вбок, и под закреплённый первый столбец уходит
           то, что левее. Когда ⓘ был справа, у полуприкрытой колонки оставался
           виден значок, а слово исчезало — шапка выглядела съехавшей
           относительно цифр. Теперь у правого края стоит сама подпись, ровно
           над своим числом, а первым прячется значок. */}
-      <span className={`inline-flex items-center gap-2 ${align === 'right' ? 'justify-end flex-row-reverse' : ''}`}>
+      <span className={`inline-flex items-center gap-1 ${align === 'right' ? 'justify-end flex-row-reverse' : ''}`}>
         <button
           type="button"
           onClick={() => onToggle(k)}
@@ -130,12 +133,7 @@ export function SortableTh({
           {label}
           <SortIcon active={active} dir={dir} />
         </button>
-        {hint && (
-          <>
-            <span aria-hidden className="w-px h-3 bg-neutral-dark/15 shrink-0" />
-            <InfoHint text={hint} />
-          </>
-        )}
+        {hint && <InfoHint text={hint} />}
       </span>
     </th>
   );
